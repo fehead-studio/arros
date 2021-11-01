@@ -41,5 +41,63 @@ public class BuildInfo extends BaseEntity implements Serializable {
     @ApiModelProperty("产物路径")
     private String resultPath;
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRepoId() {
+        return repoId;
+    }
+
+    public void setRepoId(String repoId) {
+        this.repoId = repoId;
+    }
+
+    public Integer getTriggerType() {
+        return triggerType;
+    }
+
+    public void setTriggerType(Integer triggerType) {
+        this.triggerType = triggerType;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+
+    public String getBuildCommand() {
+        return buildCommand;
+    }
+
+    public void setBuildCommand(String buildCommand) {
+        this.buildCommand = buildCommand;
+    }
+
+    public String getResultPath() {
+        return resultPath;
+    }
+
+    public void setResultPath(String resultPath) {
+        this.resultPath = resultPath;
+    }
+
+    @Override
+    public String toString() {
+        return "BuildInfo{" +
+                "id='" + id + '\'' +
+                ", repoId='" + repoId + '\'' +
+                ", triggerType=" + triggerType +
+                ", branch='" + branch + '\'' +
+                ", buildCommand='" + buildCommand + '\'' +
+                ", resultPath='" + resultPath + '\'' +
+                '}';
+    }
 }

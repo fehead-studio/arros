@@ -42,16 +42,6 @@ public class Repository extends BaseEntity implements Serializable {
     @ApiModelProperty("私钥")
     private String rsaPrv;
 
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createTime;
-
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty("逻辑删除")
-    private Integer isDelete;
-
-
     public String getId() {
         return id;
     }
@@ -108,43 +98,16 @@ public class Repository extends BaseEntity implements Serializable {
         this.rsaPrv = rsaPrv;
     }
 
-    public LocalDateTime getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(LocalDateTime createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(LocalDateTime updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Integer getIsDelete() {
-        return isDelete;
-    }
-
-    public void setIsDelete(Integer isDelete) {
-        this.isDelete = isDelete;
-    }
-
     @Override
     public String toString() {
         return "Repository{" +
-        "id=" + id +
-        ", name=" + name +
-        ", gitUrl=" + gitUrl +
-        ", username=" + username +
-        ", password=" + password +
-        ", rsaPub=" + rsaPub +
-        ", rsaPrv=" + rsaPrv +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        ", isDelete=" + isDelete +
-        "}";
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", gitUrl='" + gitUrl + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", rsaPub='" + rsaPub + '\'' +
+                ", rsaPrv='" + rsaPrv + '\'' +
+                '}';
     }
 }

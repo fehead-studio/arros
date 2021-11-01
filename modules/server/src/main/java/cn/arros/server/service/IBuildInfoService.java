@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-11-01
  */
 public interface IBuildInfoService extends IService<BuildInfo> {
-
+    int addBuildInfo(BuildInfo buildInfo);
 }

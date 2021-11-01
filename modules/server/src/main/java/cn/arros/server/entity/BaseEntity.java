@@ -12,6 +12,8 @@ public class BaseEntity {
 
     private LocalDateTime updateTime;
 
+    private Integer isDelete;
+
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -26,5 +28,13 @@ public class BaseEntity {
 
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        this.isDelete = isDelete;
     }
 }

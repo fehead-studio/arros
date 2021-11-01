@@ -23,7 +23,21 @@ public class ArrosProperties {
         }
     }
 
+    public static class Build {
+        private String path = "/arros/build";
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
+    }
+
     private Git git = new Git();
+
+    private Build build = new Build();
 
     public Git getGit() {
         return git;
@@ -31,5 +45,13 @@ public class ArrosProperties {
 
     public void setGit(Git git) {
         this.git = git;
+    }
+
+    public Build getBuild() {
+        return build;
+    }
+
+    public void setBuild(Build build) {
+        this.build = build;
     }
 }
