@@ -2,6 +2,7 @@ package cn.arros.server.service;
 
 import cn.arros.server.entity.Repository;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.eclipse.jgit.api.errors.GitAPIException;
 
 /**
  * <p>
@@ -12,5 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-11-01
  */
 public interface IRepositoryService extends IService<Repository> {
-
+    int addRepo(Repository repository) throws GitAPIException;
 }

@@ -16,7 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
  * @since 2021-11-01
  */
 @ApiModel(value = "Repository对象", description = "")
-public class Repository implements Serializable {
+public class Repository extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

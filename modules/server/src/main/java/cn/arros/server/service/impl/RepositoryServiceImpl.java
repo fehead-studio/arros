@@ -3,7 +3,11 @@ package cn.arros.server.service.impl;
 import cn.arros.server.entity.Repository;
 import cn.arros.server.mapper.RepositoryMapper;
 import cn.arros.server.service.IRepositoryService;
+import cn.arros.server.utils.GitUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.checkerframework.checker.units.qual.A;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +20,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Repository> implements IRepositoryService {
+    @Autowired
+    private GitUtils gitUtils;
+    @Autowired
+    private RepositoryMapper repositoryMapper;
 
+    @Override
+    public int addRepo(Repository repository) throws GitAPIException {
+        gitUtils.clone(repository.getGitUrl(), repository.getId());
+        return repositoryMapper.insert(repository);
+    }
 }
