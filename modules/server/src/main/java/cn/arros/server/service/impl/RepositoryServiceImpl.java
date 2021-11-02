@@ -21,13 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Repository> implements IRepositoryService {
     @Autowired
-    private GitUtils gitUtils;
-    @Autowired
     private RepositoryMapper repositoryMapper;
 
     @Override
     public int addRepo(Repository repository) throws GitAPIException {
-        gitUtils.clone(repository.getGitUrl(), repository.getId());
+        GitUtils.clone(repository.getGitUrl(), repository.getId());
         return repositoryMapper.insert(repository);
     }
 }

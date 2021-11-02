@@ -1,9 +1,13 @@
 package cn.arros.server.utils;
 
+import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.io.IOException;
 
 /**
  * @Author Verge
@@ -12,11 +16,22 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 @SpringBootTest
 class GitUtilsTest {
-    @Autowired
-    GitUtils gitUtils;
+
 
     @Test
     void testClone() throws GitAPIException {
-        //System.out.println(gitUtils.clone("https://gitee.com/vergeee/static-repo"));
+        System.out.println(GitUtils.clone("https://gitee.com/vergeee/static-repo","test"));
+    }
+
+    @Test
+    void openLocalRepo() throws IOException {
+        System.out.println(GitUtils.openLocalRepo("a3e6eb2ccaf1495f829730575c89e1d2"));
+    }
+
+    @Test
+    void pull() throws GitAPIException, IOException {
+        Repository repository = GitUtils.openLocalRepo("a3e6eb2ccaf1495f829730575c89e1d2");
+        PullResult pullResult = GitUtils.pull(repository);
+        System.out.println(pullResult.isSuccessful());
     }
 }
