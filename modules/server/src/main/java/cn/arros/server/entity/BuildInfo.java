@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -30,7 +30,7 @@ public class BuildInfo extends BaseEntity implements Serializable {
     private String repoId;
 
     @ApiModelProperty("触发类型")
-    private Integer triggerType;
+    private String triggerToken;
 
     @ApiModelProperty("分支")
     private String branch;
@@ -57,12 +57,12 @@ public class BuildInfo extends BaseEntity implements Serializable {
         this.repoId = repoId;
     }
 
-    public Integer getTriggerType() {
-        return triggerType;
+    public String getTriggerToken() {
+        return triggerToken;
     }
 
-    public void setTriggerType(Integer triggerType) {
-        this.triggerType = triggerType;
+    public void setTriggerToken(String triggerToken) {
+        this.triggerToken = triggerToken;
     }
 
     public String getBranch() {
@@ -94,7 +94,7 @@ public class BuildInfo extends BaseEntity implements Serializable {
         return "BuildInfo{" +
                 "id='" + id + '\'' +
                 ", repoId='" + repoId + '\'' +
-                ", triggerType=" + triggerType +
+                ", triggerToken='" + triggerToken + '\'' +
                 ", branch='" + branch + '\'' +
                 ", buildCommand='" + buildCommand + '\'' +
                 ", resultPath='" + resultPath + '\'' +

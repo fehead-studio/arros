@@ -25,7 +25,6 @@ class BuildInfoControllerTest {
         buildInfo.setBuildCommand("ls");
         // TODO: 应使用JGit获取仓库分支供用户选择
         buildInfo.setBranch("master");
-        buildInfo.setTriggerType(1);
         buildInfoController.addBuildInfo(buildInfo);
     }
 }

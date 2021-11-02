@@ -3,12 +3,9 @@ package cn.arros.server.controller;
 
 import cn.arros.server.common.CommonResult;
 import cn.arros.server.entity.BuildInfo;
-import cn.arros.server.entity.Repository;
 import cn.arros.server.service.IBuildInfoService;
-import cn.arros.server.service.IRepositoryService;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.StrUtil;
-import org.eclipse.jgit.api.errors.GitAPIException;
+import cn.hutool.core.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +27,7 @@ public class BuildInfoController {
     public CommonResult addBuildInfo(@RequestBody BuildInfo buildInfo) {
         String uuid = IdUtil.fastSimpleUUID();
         buildInfo.setId(uuid);
+        buildInfo.setTriggerToken(RandomUtil.randomString(10));
         buildInfoService.addBuildInfo(buildInfo);
         return CommonResult.success();
     }
