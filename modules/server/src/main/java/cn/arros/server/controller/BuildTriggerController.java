@@ -2,6 +2,7 @@ package cn.arros.server.controller;
 
 import cn.arros.server.common.CommonResult;
 import cn.arros.server.entity.BuildInfo;
+import cn.arros.server.service.BuildService;
 import cn.arros.server.service.IBuildInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,15 +26,12 @@ public class BuildTriggerController {
     @RequestMapping("/{id}/{token}")
     public CommonResult trigger(@PathVariable String id, @PathVariable String token) throws Exception {
         BuildInfo buildInfo = buildInfoService.getById(id);
-        if (buildInfo == null) {
-            throw new Exception("构建信息未找到");
-        }
-
-        if (!token.equals(buildInfo.getTriggerToken())) {
-            throw new Exception("token不匹配");
-        }
+        if (buildInfo == null) throw new Exception("构建信息未找到");
+        if (!token.equals(buildInfo.getTriggerToken())) throw new Exception("token不匹配");
 
         // TODO: 开始构建
+        BuildService buildService = new BuildService(buildInfo);
+        buildService.run();
 
         return CommonResult.success();
     }

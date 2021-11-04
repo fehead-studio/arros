@@ -19,8 +19,8 @@ class BuildInfoControllerTest {
     void addBuildInfo() {
         BuildInfo buildInfo = new BuildInfo();
         // TODO: 获取所有RepoId后供用户选择
-        buildInfo.setRepoId("a3e6eb2ccaf1495f829730575c89e1d2");
-        buildInfo.setBuildCommand("ls");
+        buildInfo.setRepoId("bdd0b150d06c4b148735caf431aad4f4");
+        buildInfo.setBuildCommand("mvn package");
         // TODO: 应使用JGit获取仓库分支供用户选择
         buildInfo.setBranch("master");
         buildInfoController.addBuildInfo(buildInfo);

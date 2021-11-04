@@ -13,6 +13,9 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @Author Verge
@@ -33,7 +36,18 @@ public class BuildService implements Runnable{
 
     @Override
     public void run() {
-        
+        List<Supplier<Boolean>> list = new ArrayList<>();
+        list.add(this::prepare);
+        list.add(this::updateSource);
+        list.add(this::build);
+        list.add(this::deploy);
+
+        for (Supplier<Boolean> booleanSupplier : list) {
+            if (!booleanSupplier.get()) {
+                break;
+            }
+        }
+
     }
 
     /**
@@ -50,9 +64,9 @@ public class BuildService implements Runnable{
      */
     private boolean prepare() {
         buildHistory.setId(IdUtil.fastSimpleUUID());
+        buildHistory.setStartTime(LocalDateTime.now());
         buildHistory.setBuildInfoId(buildInfo.getId());
         buildHistory.setStatus(BuildStatus.PREPARING.getCode());
-        buildHistory.setStartTime(LocalDateTime.now());
 
         return buildHistoryMapper.insert(buildHistory) == 1;
     }
@@ -61,12 +75,16 @@ public class BuildService implements Runnable{
      * 更新资源
      * @return 成功与否
      */
-    private boolean updateSource() throws GitAPIException, IOException {
+    private boolean updateSource() {
         buildHistory.setStatus(BuildStatus.BUILDING.getCode());
         buildHistoryMapper.updateById(buildHistory);
-
-        PullResult pullResult = GitUtils.pull(buildInfo.getRepoId());
-        return pullResult.isSuccessful();
+        try {
+            PullResult pullResult = GitUtils.pull(buildInfo.getRepoId());
+            return pullResult.isSuccessful();
+        } catch (GitAPIException | IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -75,28 +93,23 @@ public class BuildService implements Runnable{
      * @return 成功与否
      */
     private boolean build() {
-        buildHistory.setStatus(BuildStatus.BUILDING.getCode());
-        buildHistoryMapper.updateById(buildHistory);
-
         boolean status = MavenUtils.pack(buildInfo.getRepoId());
         if (status) {
             buildHistory.setStatus(BuildStatus.BUILD_COMPLETED.getCode());
         } else {
             buildHistory.setStatus(BuildStatus.BUILD_FAILED.getCode());
         }
-        buildHistory.setEndTime(LocalDateTime.now());
-        buildHistoryMapper.updateById(buildHistory);
         return status;
     }
 
     // TODO: 待完成
     private boolean deploy(){
+        buildHistory.setStatus(BuildStatus.DEPLOY_COMPLETED.getCode());
+        buildHistoryMapper.updateById(buildHistory);
+
+        buildHistory.setEndTime(LocalDateTime.now());
+        buildHistoryMapper.updateById(buildHistory);
         return true;
     }
-
-
-
-
-
 
 }
