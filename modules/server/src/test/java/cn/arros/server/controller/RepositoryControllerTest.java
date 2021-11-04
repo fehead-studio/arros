@@ -21,8 +21,8 @@ class RepositoryControllerTest {
     @Rollback
     void addRepo() throws GitAPIException {
         Repository repository = new Repository();
-        repository.setGitUrl("https://gitee.com/vergeee/static-repo");
-        repository.setName("测试仓库");
+        repository.setGitUrl("https://gitee.com/vergeee/yiban-auto-checkin.git");
+        repository.setName("易班自动打卡");
         repositoryController.addRepo(repository);
     }
 

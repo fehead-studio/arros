@@ -5,8 +5,8 @@ import cn.arros.server.entity.BuildHistory;
 import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.mapper.BuildHistoryMapper;
 import cn.arros.server.utils.GitUtils;
+import cn.arros.server.utils.MavenUtils;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -33,7 +33,7 @@ public class BuildService implements Runnable{
 
     @Override
     public void run() {
-
+        
     }
 
     /**
@@ -69,10 +69,32 @@ public class BuildService implements Runnable{
         return pullResult.isSuccessful();
     }
 
+    /**
+     * 构建项目
+     * 目前只支持Maven
+     * @return 成功与否
+     */
     private boolean build() {
-        System.out.println(RuntimeUtil.execForStr("mvn -v"));
+        buildHistory.setStatus(BuildStatus.BUILDING.getCode());
+        buildHistoryMapper.updateById(buildHistory);
+
+        boolean status = MavenUtils.pack(buildInfo.getRepoId());
+        if (status) {
+            buildHistory.setStatus(BuildStatus.BUILD_COMPLETED.getCode());
+        } else {
+            buildHistory.setStatus(BuildStatus.BUILD_FAILED.getCode());
+        }
+        buildHistory.setEndTime(LocalDateTime.now());
+        buildHistoryMapper.updateById(buildHistory);
+        return status;
+    }
+
+    // TODO: 待完成
+    private boolean deploy(){
         return true;
     }
+
+
 
 
 

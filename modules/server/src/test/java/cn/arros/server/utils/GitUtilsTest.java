@@ -4,7 +4,6 @@ import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -16,8 +15,6 @@ import java.io.IOException;
  */
 @SpringBootTest
 class GitUtilsTest {
-
-
     @Test
     void testClone() throws GitAPIException {
         System.out.println(GitUtils.clone("https://gitee.com/vergeee/static-repo","test"));
