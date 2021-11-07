@@ -3,10 +3,10 @@ package cn.arros.server.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * </p>
  *
  * @author Verge
- * @since 2021-11-01
+ * @since 2021-11-06
  */
 @TableName("build_info")
 @ApiModel(value = "BuildInfo对象", description = "")
@@ -28,6 +28,12 @@ public class BuildInfo extends BaseEntity implements Serializable {
 
     @ApiModelProperty("repo id")
     private String repoId;
+
+    @ApiModelProperty("部署方式")
+    private Integer deployType;
+
+    @ApiModelProperty("节点ID")
+    private String nodeId;
 
     @ApiModelProperty("触发类型")
     private String triggerToken;
@@ -55,6 +61,22 @@ public class BuildInfo extends BaseEntity implements Serializable {
 
     public void setRepoId(String repoId) {
         this.repoId = repoId;
+    }
+
+    public Integer getDeployType() {
+        return deployType;
+    }
+
+    public void setDeployType(Integer deployType) {
+        this.deployType = deployType;
+    }
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
     }
 
     public String getTriggerToken() {
@@ -92,12 +114,14 @@ public class BuildInfo extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return "BuildInfo{" +
-                "id='" + id + '\'' +
-                ", repoId='" + repoId + '\'' +
-                ", triggerToken='" + triggerToken + '\'' +
-                ", branch='" + branch + '\'' +
-                ", buildCommand='" + buildCommand + '\'' +
-                ", resultPath='" + resultPath + '\'' +
-                '}';
+        "id=" + id +
+        ", repoId=" + repoId +
+        ", deployType=" + deployType +
+        ", nodeId=" + nodeId +
+        ", triggerToken=" + triggerToken +
+        ", branch=" + branch +
+        ", buildCommand=" + buildCommand +
+        ", resultPath=" + resultPath +
+        "}";
     }
 }

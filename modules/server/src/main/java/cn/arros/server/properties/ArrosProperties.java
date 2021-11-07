@@ -35,9 +35,23 @@ public class ArrosProperties {
         }
     }
 
+    public static class AES {
+        private String key = "1234567890";
+
+        public String getKey() {
+            return key;
+        }
+
+        public void setKey(String key) {
+            this.key = key;
+        }
+    }
+
     private Git git = new Git();
 
     private Build build = new Build();
+
+    private AES aes = new AES();
 
     public Git getGit() {
         return git;
@@ -53,5 +67,13 @@ public class ArrosProperties {
 
     public void setBuild(Build build) {
         this.build = build;
+    }
+
+    public AES getAes() {
+        return aes;
+    }
+
+    public void setAes(AES aes) {
+        this.aes = aes;
     }
 }

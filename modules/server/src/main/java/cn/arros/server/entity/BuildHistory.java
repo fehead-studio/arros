@@ -37,10 +37,11 @@ public class BuildHistory implements Serializable {
     private LocalDateTime endTime;
 
     @ApiModelProperty("产物路径")
-    private String resultPath;
+    private String resultName;
 
     @ApiModelProperty("构建状态")
     private Integer status;
+
 
 
     public String getId() {
@@ -75,12 +76,12 @@ public class BuildHistory implements Serializable {
         this.endTime = endTime;
     }
 
-    public String getResultPath() {
-        return resultPath;
+    public String getResultName() {
+        return resultName;
     }
 
-    public void setResultPath(String resultPath) {
-        this.resultPath = resultPath;
+    public void setResultName(String resultName) {
+        this.resultName = resultName;
     }
 
     public Integer getStatus() {
@@ -98,7 +99,7 @@ public class BuildHistory implements Serializable {
         ", buildInfoId=" + buildInfoId +
         ", startTime=" + startTime +
         ", endTime=" + endTime +
-        ", resultPath=" + resultPath +
+        ", resultName=" + resultName +
         ", status=" + status +
         "}";
     }
