@@ -1,5 +1,6 @@
 package cn.arros.server.utils;
 
+import cn.arros.server.constant.ConfigType;
 import cn.arros.server.exception.GlobalExceptionHandler;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.extra.spring.SpringUtil;
@@ -36,7 +37,7 @@ public class GitUtils {
      */
     public static Git clone(String url, String filename) throws GitAPIException {
         System.out.println(arrosProperties);
-        File file = new File(arrosProperties.getGit().getPath() + "/" +filename);
+        File file = new File(arrosProperties.getConfig(ConfigType.GIT_CONFIG).getConfigValue() + "/" +filename);
         log.info("从{}克隆至{}", url, file.getAbsolutePath());
         return Git.cloneRepository()
                 .setURI(url)
@@ -52,9 +53,11 @@ public class GitUtils {
      */
     public static Repository openLocalRepo(String repoId) throws IOException {
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        File repoDir = new File(arrosProperties.getGit().getPath() + "/" + repoId + "/.git");
+        File repoDir = new File(arrosProperties.getConfig(ConfigType.GIT_CONFIG).getConfigValue() + "/" + repoId + "/.git");
         boolean isRepo = RepositoryCache.FileKey.isGitRepository(repoDir, FS.DETECTED);
-        if (!isRepo) throw new RepositoryNotFoundException("该目录不是git仓库");
+        if(!isRepo) {
+            throw new RepositoryNotFoundException("该目录不是git仓库");
+        }
         return builder
                 .setGitDir(repoDir)
                 .readEnvironment()

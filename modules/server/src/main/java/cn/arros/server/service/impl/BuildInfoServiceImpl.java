@@ -1,5 +1,6 @@
 package cn.arros.server.service.impl;
 
+import cn.arros.server.constant.ConfigType;
 import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.mapper.BuildInfoMapper;
 import cn.arros.server.properties.ArrosProperties;
@@ -27,7 +28,7 @@ public class BuildInfoServiceImpl extends ServiceImpl<BuildInfoMapper, BuildInfo
     // TODO: 不应直接将地址都设置为这个
     @Override
     public int addBuildInfo(BuildInfo buildInfo) {
-        buildInfo.setResultPath(arrosProperties.getBuild().getPath() + "/" + buildInfo.getId());
+        buildInfo.setResultPath(arrosProperties.getConfig(ConfigType.BUILD_CONFIG).getConfigValue() + "/" + buildInfo.getId());
         return buildInfoMapper.insert(buildInfo);
     }
 }

@@ -1,79 +1,59 @@
 package cn.arros.server.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import cn.arros.server.constant.ConfigType;
+import cn.arros.server.entity.SysConfig;
+import cn.arros.server.service.ISysConfigService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @Author Verge
- * @Date 2021/11/1 16:53
- * @Version 1.0
- */
+ * @author Zero
+ * @date 2021/11/12 20:25
+ * @description
+ * @since 1.8
+ **/
 @Configuration
-@ConfigurationProperties(prefix = "arros")
 public class ArrosProperties {
-    public static class Git {
-        private String path = "/arros/repo";
 
-        public String getPath() {
-            return path;
+    @Autowired
+    private ISysConfigService sysConfigService;
+
+    /**
+     * 根据配置类型数据库拿取配置
+     * @param type
+     * @return
+     */
+    public SysConfig getConfig(ConfigType type) {
+        return sysConfigService.getOne(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type.getName()));
+    }
+
+    /**
+     * 根据配置名从数据库获取配置
+     * @param type
+     * @return
+     */
+    public SysConfig getConfig(String type) {
+        return sysConfigService.getOne(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type));
+    }
+
+    /**
+     * 判断是否包含支持配置类型
+     * @param type
+     * @return
+     */
+    private boolean isContainType(Object type) {
+        for(ConfigType element :ConfigType.values()) {
+            if(type instanceof String) {
+                return element.getName().equalsIgnoreCase((String) type);
+            } else if(type instanceof ConfigType) {
+                return element.equals(type);
+            } else {
+                return type.equals(element.getType());
+            }
         }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
+        return false;
     }
 
-    public static class Build {
-        private String path = "/arros/build";
 
-        public String getPath() {
-            return path;
-        }
-
-        public void setPath(String path) {
-            this.path = path;
-        }
-    }
-
-    public static class AES {
-        private String key = "1234567890";
-
-        public String getKey() {
-            return key;
-        }
-
-        public void setKey(String key) {
-            this.key = key;
-        }
-    }
-
-    private Git git = new Git();
-
-    private Build build = new Build();
-
-    private AES aes = new AES();
-
-    public Git getGit() {
-        return git;
-    }
-
-    public void setGit(Git git) {
-        this.git = git;
-    }
-
-    public Build getBuild() {
-        return build;
-    }
-
-    public void setBuild(Build build) {
-        this.build = build;
-    }
-
-    public AES getAes() {
-        return aes;
-    }
-
-    public void setAes(AES aes) {
-        this.aes = aes;
-    }
 }
