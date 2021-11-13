@@ -38,6 +38,15 @@ public class ArrosProperties {
     }
 
     /**
+     * 更新配置
+     * @param type
+     * @return
+     */
+    public boolean updateConfig(SysConfig type) {
+        return sysConfigService.update(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type.getConfigValue()));
+    }
+
+    /**
      * 判断是否包含支持配置类型
      * @param type
      * @return
