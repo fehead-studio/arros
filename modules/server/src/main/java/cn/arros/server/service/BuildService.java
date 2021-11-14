@@ -36,7 +36,7 @@ public class BuildService implements Runnable{
 
     @Override
     public void run() {
-        List<Supplier<Boolean>> list = new ArrayList<>();
+        List<Supplier<Boolean>> list = new ArrayList<>(4);
         list.add(this::prepare);
         list.add(this::updateSource);
         list.add(this::build);
