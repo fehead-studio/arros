@@ -1,5 +1,6 @@
 package cn.arros.server.service.impl;
 
+import cn.arros.server.constant.ConfigType;
 import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.mapper.BuildInfoMapper;
 import cn.arros.server.properties.ArrosProperties;
@@ -30,6 +31,8 @@ public class BuildInfoServiceImpl extends ServiceImpl<BuildInfoMapper, BuildInfo
 
     @Override
     public int addBuildInfo(BuildInfo buildInfo) {
+        buildInfo.setResultPath(arrosProperties.getConfig(ConfigType.BUILD).getConfigValue() + "/" + buildInfo.getId());
+
         buildInfo.setId(IdUtil.fastSimpleUUID());
         buildInfo.setTriggerToken(RandomUtil.randomString(10));
 

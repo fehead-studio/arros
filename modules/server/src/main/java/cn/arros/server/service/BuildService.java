@@ -106,11 +106,9 @@ public class BuildService implements Runnable{
     }
 
     // TODO: 待完成
+
     private boolean deploy(){
         buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.DEPLOYING);
-
-
-
         buildHistory.setEndTime(LocalDateTime.now());
         buildHistoryMapper.updateById(buildHistory);
         return true;

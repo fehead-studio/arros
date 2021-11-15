@@ -29,7 +29,7 @@ public class CommandUtils {
         }
     }
 
-    private static boolean isWindows(){
+    private static boolean isWindows() {
         return System.getProperty("os.name")
                 .toLowerCase().startsWith("windows");
     }

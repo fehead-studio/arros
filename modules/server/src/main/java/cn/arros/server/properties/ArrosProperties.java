@@ -1,79 +1,142 @@
 package cn.arros.server.properties;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import cn.arros.server.constant.ConfigType;
+import cn.arros.server.entity.SysConfig;
+import cn.arros.server.service.ISysConfigService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
 /**
- * @Author Verge
- * @Date 2021/11/1 16:53
- * @Version 1.0
- */
+ * @author Zero
+ * @date 2021/11/12 20:25
+ * @description
+ * @since 1.8
+ **/
 @Configuration
-@ConfigurationProperties(prefix = "arros")
 public class ArrosProperties {
-    public static class Git {
-        private String path = "/arros/repo";
 
-        public String getPath() {
-            return path;
+    @Autowired
+    private ISysConfigService sysConfigService;
+
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private ConcurrentMap<String,SysConfig> configs = new ConcurrentHashMap<>();
+
+    /**
+     * 初始化加载所有配置到内存
+     */
+    @PostConstruct
+    public void init() {
+        this.loadFromDB(ConfigType.values());
+    }
+
+    /**
+     * 从数据库加载系统配置
+     * @param types
+     */
+    public void loadFromDB(ConfigType... types) {
+        if(null == types) {
+            throw new RuntimeException("配置加载错误");
         }
+        Arrays.stream(types).forEach(type -> {
+            final SysConfig sysConfig = sysConfigService.getOne(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type.getName()));
+            if(sysConfig != null) {
+                configs.put(type.getName(), sysConfig);
+            } else {
+                logger.error(type.getName()+"配置文件加载错误");
+            }
+        });
+    }
 
-        public void setPath(String path) {
-            this.path = path;
+    /**
+     * 根据配置类型数据库拿取配置
+     * @param type
+     * @return
+     */
+    public SysConfig getConfig(ConfigType type) {
+        if(type.getName() == null) {
+            throw new RuntimeException("请传入配置类型");
         }
-    }
-
-    public static class Build {
-        private String path = "/arros/build";
-
-        public String getPath() {
-            return path;
+        final SysConfig sysConfig = configs.get(type.getName());
+        if(sysConfig == null) {
+            throw new RuntimeException("系统暂不支持该类型配置");
         }
+        return sysConfig;
+    }
 
-        public void setPath(String path) {
-            this.path = path;
+    /**
+     * 根据配置名从数据库获取配置
+     * @param type
+     * @return
+     */
+    public SysConfig getConfig(String type) {
+        if(type == null || type == "") {
+            throw new RuntimeException("请传入配置类型");
         }
-    }
-
-    public static class AES {
-        private String key = "1234567890";
-
-        public String getKey() {
-            return key;
+        final SysConfig sysConfig = configs.get(type.toUpperCase());
+        if(sysConfig == null) {
+            throw new RuntimeException("系统暂不支持该类型配置");
         }
+        return sysConfig;
+    }
 
-        public void setKey(String key) {
-            this.key = key;
+    /**
+     * 更新配置
+     * @param type
+     * @return
+     */
+    public boolean updateConfig(SysConfig type) {
+        sysConfigService.update(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type.getConfigValue()));
+        final ConfigType configType = ConfigType.valueOf(type.getConfigName().toUpperCase());
+        this.loadFromDB(queryConfig(type.getConfigName()));
+        return true;
+    }
+
+    /**
+     * 判断是否包含支持配置类型
+     * @param type
+     * @return
+     */
+    private boolean isContainType(Object type) {
+        for(ConfigType element :ConfigType.values()) {
+            if(type instanceof String) {
+                if(element.getName().equalsIgnoreCase((String) type)) {
+                    return true;
+                }
+            } else if(type instanceof ConfigType) {
+                if(element.equals(type)) {
+                    return true;
+                }
+            } else {
+                if(type.equals(element.getType())) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
-    private Git git = new Git();
-
-    private Build build = new Build();
-
-    private AES aes = new AES();
-
-    public Git getGit() {
-        return git;
+    /**
+     * 根据名称获取内置配置类型
+     * @param type
+     * @return
+     */
+    private ConfigType queryConfig(String type) {
+        for(ConfigType t : ConfigType.values()) {
+            if(t.getName().equalsIgnoreCase(type)) {
+                return t;
+            }
+        }
+        return null;
     }
 
-    public void setGit(Git git) {
-        this.git = git;
-    }
 
-    public Build getBuild() {
-        return build;
-    }
-
-    public void setBuild(Build build) {
-        this.build = build;
-    }
-
-    public AES getAes() {
-        return aes;
-    }
-
-    public void setAes(AES aes) {
-        this.aes = aes;
-    }
 }

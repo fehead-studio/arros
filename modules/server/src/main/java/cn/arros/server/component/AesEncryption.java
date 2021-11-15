@@ -1,5 +1,6 @@
 package cn.arros.server.component;
 
+import cn.arros.server.constant.ConfigType;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
@@ -19,7 +20,7 @@ public class AesEncryption {
 
     @Bean
     public SymmetricCrypto getSymmetricCrypto(){
-        String key = arrosProperties.getAes().getKey();
+        String key = arrosProperties.getConfig(ConfigType.AES).getConfigValue();
         byte[] byteKey = key.getBytes();
         return new SymmetricCrypto(SymmetricAlgorithm.AES,byteKey);
     }
