@@ -1,6 +1,5 @@
 package cn.arros.server.utils;
 
-import cn.arros.server.exception.GlobalExceptionHandler;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.extra.spring.SpringUtil;
 import org.eclipse.jgit.api.Git;

@@ -12,6 +12,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
  * @author Verge
  * @since 2021-11-01
  */
-public interface IRepositoryService extends IService<Repository> {
+public interface RepositoryService extends IService<Repository> {
     int addRepo(Repository repository) throws GitAPIException;
 }

@@ -18,6 +18,6 @@ class BuildTriggerControllerTest {
 
     @Test
     void trigger() throws Exception {
-        buildTriggerController.trigger("c87d3546f5f9422bb4b9c9381c92d696", "48j359zja1");
+        buildTriggerController.tokenTrigger("c87d3546f5f9422bb4b9c9381c92d696", "48j359zja1");
     }
 }

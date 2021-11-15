@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Verge
  * @since 2021-11-06
  */
-public interface INodeService extends IService<Node> {
-
+public interface NodeService extends IService<Node> {
+    int addNode(Node node);
 }
