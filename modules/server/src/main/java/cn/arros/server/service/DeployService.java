@@ -102,7 +102,7 @@ public class DeployService implements Runnable{
         ArrosProperties arrosProperties = SpringUtil.getBean(ArrosProperties.class);
         try {
             fs = SftpClientFactory.instance().createSftpFileSystem(session);
-            String buildPath = arrosProperties.getConfig(ConfigType.BUILD_CONFIG).getConfigValue();
+            String buildPath = arrosProperties.getConfig(ConfigType.BUILD).getConfigValue();
             Path remotePath = fs.getDefaultDir()
                     .resolve(buildPath)
                     .resolve(buildInfo.getId())

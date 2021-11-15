@@ -1,9 +1,6 @@
 package cn.arros.server.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -21,7 +18,7 @@ import java.util.Date;
  * @description
  * @since 1.8
  **/
-
+@TableName("sys_config")
 @ApiModel(value = "SysConfig对象", description = "")
 public class SysConfig extends BaseEntity implements Serializable {
 
@@ -29,10 +26,10 @@ public class SysConfig extends BaseEntity implements Serializable {
 
     @ApiModelProperty("主键配置id")
     @TableId(value = "config_id", type = IdType.AUTO)
-    private Integer config_id;
+    private Integer configId;
 
     @ApiModelProperty("配置键")
-    private String config_key;
+    private String configKey;
 
     @ApiModelProperty("配置名")
     private String configName;
@@ -49,20 +46,6 @@ public class SysConfig extends BaseEntity implements Serializable {
     @ApiModelProperty("更新者")
     private String updateBy;
 
-    @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.INSERT)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private Date gmtCreate;
-
-    @ApiModelProperty("更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @TableField(fill = FieldFill.UPDATE)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private Date gmtModified;
-
     @ApiModelProperty("备注")
     private String remark;
 
@@ -71,19 +54,19 @@ public class SysConfig extends BaseEntity implements Serializable {
     }
 
     public Integer getConfig_id() {
-        return config_id;
+        return configId;
     }
 
     public void setConfig_id(Integer config_id) {
-        this.config_id = config_id;
+        this.configId = config_id;
     }
 
     public String getConfig_key() {
-        return config_key;
+        return configKey;
     }
 
     public void setConfig_key(String config_key) {
-        this.config_key = config_key;
+        this.configKey = config_key;
     }
 
     public String getConfigName() {
@@ -126,21 +109,7 @@ public class SysConfig extends BaseEntity implements Serializable {
         this.updateBy = updateBy;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
-
-    public Date getGmtModified() {
-        return gmtModified;
-    }
-
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
 
     public String getRemark() {
         return remark;
@@ -153,15 +122,13 @@ public class SysConfig extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return "SysConfig{" +
-                "config_id=" + config_id +
-                ", config_key='" + config_key + '\'' +
+                "config_id=" + configId +
+                ", config_key='" + configKey + '\'' +
                 ", configName='" + configName + '\'' +
                 ", configValue='" + configValue + '\'' +
                 ", configType='" + configType + '\'' +
                 ", createBy='" + createBy + '\'' +
                 ", updateBy='" + updateBy + '\'' +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
                 ", remark='" + remark + '\'' +
                 '}';
     }

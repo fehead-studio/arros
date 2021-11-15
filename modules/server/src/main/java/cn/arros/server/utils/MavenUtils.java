@@ -23,7 +23,7 @@ public class MavenUtils {
 
     public static boolean pack(String repoId) {
         InvocationRequest request = new DefaultInvocationRequest();
-        request.setBaseDirectory(new File(arrosProperties.getConfig(ConfigType.BUILD_CONFIG).getConfigValue(), repoId));
+        request.setBaseDirectory(new File(arrosProperties.getConfig(ConfigType.BUILD).getConfigValue(), repoId));
         request.setGoals(Arrays.asList("clean","package -Dmaven.test.skip=true"));
 
         try {

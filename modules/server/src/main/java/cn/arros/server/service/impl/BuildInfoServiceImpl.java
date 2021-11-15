@@ -28,7 +28,7 @@ public class BuildInfoServiceImpl extends ServiceImpl<BuildInfoMapper, BuildInfo
     // TODO: 不应直接将地址都设置为这个
     @Override
     public int addBuildInfo(BuildInfo buildInfo) {
-        buildInfo.setResultPath(arrosProperties.getConfig(ConfigType.BUILD_CONFIG).getConfigValue() + "/" + buildInfo.getId());
+        buildInfo.setResultPath(arrosProperties.getConfig(ConfigType.BUILD).getConfigValue() + "/" + buildInfo.getId());
         return buildInfoMapper.insert(buildInfo);
     }
 }

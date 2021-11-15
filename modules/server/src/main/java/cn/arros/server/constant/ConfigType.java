@@ -7,9 +7,9 @@ package cn.arros.server.constant;
  * @since 1.8
  **/
 public enum ConfigType {
-    GIT_CONFIG(1,"GIT"),
-    AES_CONFIG(2,"AES"),
-    BUILD_CONFIG(3,"BUILD");
+    GIT(1,"GIT"),
+    AES(2,"AES"),
+    BUILD(3,"BUILD");
 
     private final int type;
     private final String name;

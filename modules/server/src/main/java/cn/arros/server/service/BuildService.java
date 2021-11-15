@@ -103,7 +103,7 @@ public class BuildService implements Runnable{
     }
 
     // TODO: 待完成
-    private boolean deploy(){
+    private boolean deploy() {
         buildHistory.setStatus(BuildStatus.DEPLOY_COMPLETED.getCode());
         buildHistoryMapper.updateById(buildHistory);
 
