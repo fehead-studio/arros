@@ -21,7 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
 
 /**
  * @Author Verge
@@ -43,7 +46,6 @@ public class DeployService implements Runnable{
     private final BuildHistory buildHistory;
     private Node node;
     private SshClient sshClient;
-    private ClientChannel channel;
     private ClientSession session;
     private SftpFileSystem fs;
     private Path targetPath;
@@ -62,7 +64,17 @@ public class DeployService implements Runnable{
 
     @Override
     public void run() {
+        List<Supplier<Boolean>> list = new ArrayList<>(4);
+        list.add(this::connect);
+        list.add(this::transFile);
+        list.add(this::execCommand);
+        list.add(this::closeConnect);
 
+        for (Supplier<Boolean> booleanSupplier : list) {
+            if (!booleanSupplier.get()) {
+                break;
+            }
+        }
     }
 
     // TODO: 使用公钥连接
@@ -127,11 +139,22 @@ public class DeployService implements Runnable{
     private boolean execCommand() {
         try {
             String res = session.executeRemoteCommand("nohup java -jar " + targetPath + " >/dev/null 2>&1 & echo $!");
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private boolean closeConnect() {
+        try {
+            fs.close();
+            session.close();
+            sshClient.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 

@@ -30,13 +30,15 @@ public class BuildService implements Runnable{
 
     BuildHistoryMapper buildHistoryMapper = SpringUtil.getBean(BuildHistoryMapper.class);
 
+    BuildHistoryService buildHistoryService = SpringUtil.getBean(BuildHistoryService.class);
+
     public BuildService(BuildInfo buildInfo) {
         this.buildInfo = buildInfo;
     }
 
     @Override
     public void run() {
-        List<Supplier<Boolean>> list = new ArrayList<>();
+        List<Supplier<Boolean>> list = new ArrayList<>(4);
         list.add(this::prepare);
         list.add(this::updateSource);
         list.add(this::build);
@@ -63,10 +65,11 @@ public class BuildService implements Runnable{
      * @return 成功与否
      */
     private boolean prepare() {
-        buildHistory.setId(IdUtil.fastSimpleUUID());
+        //buildHistory.setId(IdUtil.fastSimpleUUID());
         buildHistory.setStartTime(LocalDateTime.now());
         buildHistory.setBuildInfoId(buildInfo.getId());
-        buildHistory.setStatus(BuildStatus.PREPARING.getCode());
+
+        buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.PREPARING);
 
         return buildHistoryMapper.insert(buildHistory) == 1;
     }
@@ -76,8 +79,8 @@ public class BuildService implements Runnable{
      * @return 成功与否
      */
     private boolean updateSource() {
-        buildHistory.setStatus(BuildStatus.BUILDING.getCode());
-        buildHistoryMapper.updateById(buildHistory);
+        buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILDING);
+
         try {
             PullResult pullResult = GitUtils.pull(buildInfo.getRepoId());
             return pullResult.isSuccessful();
@@ -95,18 +98,17 @@ public class BuildService implements Runnable{
     private boolean build() {
         boolean status = MavenUtils.pack(buildInfo.getRepoId());
         if (status) {
-            buildHistory.setStatus(BuildStatus.BUILD_COMPLETED.getCode());
+            buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILD_COMPLETED);
         } else {
-            buildHistory.setStatus(BuildStatus.BUILD_FAILED.getCode());
+            buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILD_FAILED);
         }
         return status;
     }
 
     // TODO: 待完成
-    private boolean deploy() {
-        buildHistory.setStatus(BuildStatus.DEPLOY_COMPLETED.getCode());
-        buildHistoryMapper.updateById(buildHistory);
 
+    private boolean deploy(){
+        buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.DEPLOYING);
         buildHistory.setEndTime(LocalDateTime.now());
         buildHistoryMapper.updateById(buildHistory);
         return true;

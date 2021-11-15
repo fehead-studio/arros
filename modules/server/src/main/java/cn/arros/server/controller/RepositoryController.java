@@ -3,12 +3,11 @@ package cn.arros.server.controller;
 
 import cn.arros.server.common.CommonResult;
 import cn.arros.server.entity.Repository;
-import cn.arros.server.service.IRepositoryService;
+import cn.arros.server.service.RepositoryService;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -23,8 +22,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/server/repository")
 public class RepositoryController {
     @Autowired
-    private IRepositoryService repositoryService;
+    private RepositoryService repositoryService;
 
+    // TODO: 克隆过程应为异步，减少用户等待时间
     @PostMapping
     public CommonResult addRepo(@RequestBody Repository repository) throws GitAPIException {
         String uuid = IdUtil.fastSimpleUUID();
