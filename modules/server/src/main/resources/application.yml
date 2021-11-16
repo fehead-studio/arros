@@ -4,7 +4,3 @@ server:
 spring:
   profiles:
     active: dev
-
-arros:
-  git:
-    path: /adss

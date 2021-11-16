@@ -1,5 +1,6 @@
 package cn.arros.server.utils;
 
+import cn.arros.server.constant.ConfigType;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.extra.spring.SpringUtil;
 import org.eclipse.jgit.api.Git;

@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Zero
@@ -28,7 +28,7 @@ public class ArrosProperties {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private ConcurrentMap<String,SysConfig> configs = new ConcurrentHashMap<>();
+    private Map<String,SysConfig> configs = new HashMap<>();
 
     /**
      * 初始化加载所有配置到内存
@@ -137,6 +137,4 @@ public class ArrosProperties {
         }
         return null;
     }
-
-
 }
