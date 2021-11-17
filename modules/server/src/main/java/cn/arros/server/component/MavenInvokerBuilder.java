@@ -1,18 +1,13 @@
 package cn.arros.server.component;
 
-import cn.arros.server.constant.BuildStatus;
 import cn.arros.server.constant.ConfigType;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.extra.spring.SpringUtil;
 import org.apache.maven.shared.invoker.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * @Author Verge
@@ -39,13 +34,13 @@ public class MavenInvokerBuilder {
 
         InvocationResult result = invoker.execute(request);
 
-        if ( result.getExitCode() != 0 ) {
-            if ( result.getExecutionException() != null ) {
-                throw new MavenInvocationException( "构建时出现错误",
-                        result.getExecutionException() );
+        if (result.getExitCode() != 0) {
+            if (result.getExecutionException() != null) {
+                throw new MavenInvocationException("构建时出现错误",
+                        result.getExecutionException());
             } else {
-                throw new MavenInvocationException( "构建时出现错误. Exit code: " +
-                        result.getExitCode() );
+                throw new MavenInvocationException("构建时出现错误. Exit code: " +
+                        result.getExitCode());
             }
         }
     }
