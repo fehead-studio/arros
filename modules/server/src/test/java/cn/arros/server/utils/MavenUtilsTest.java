@@ -11,8 +11,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class MavenUtilsTest {
 
-    @Test
-    void pack() {
-        MavenUtils.pack("bdd0b150d06c4b148735caf431aad4f4");
-    }
+
 }
