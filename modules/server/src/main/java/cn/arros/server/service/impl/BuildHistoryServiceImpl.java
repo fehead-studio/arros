@@ -24,6 +24,7 @@ public class BuildHistoryServiceImpl extends ServiceImpl<BuildHistoryMapper, Bui
     @Override
     public boolean updateBuildStatus(String id, BuildStatus buildStatus) {
         BuildHistory buildHistory = new BuildHistory();
+        buildHistory.setId(id);
         buildHistory.setStatus(buildStatus.getCode());
         return buildHistoryMapper.updateById(buildHistory) == 1;
     }
