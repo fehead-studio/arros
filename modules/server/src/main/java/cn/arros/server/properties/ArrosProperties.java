@@ -13,6 +13,8 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author Zero
@@ -28,7 +30,7 @@ public class ArrosProperties {
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private Map<String,SysConfig> configs = new HashMap<>();
+    private ConcurrentMap<String,SysConfig> configs = new ConcurrentHashMap<>();
 
     /**
      * 初始化加载所有配置到内存
