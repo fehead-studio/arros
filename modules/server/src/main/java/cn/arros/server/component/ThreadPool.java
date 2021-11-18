@@ -1,6 +1,5 @@
 package cn.arros.server.component;
 
-import io.swagger.annotations.BasicAuthDefinition;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 

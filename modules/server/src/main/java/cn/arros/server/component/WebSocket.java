@@ -1,14 +1,10 @@
 package cn.arros.server.component;
 
-import cn.hutool.json.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -36,10 +32,8 @@ public class WebSocket {
 
     /**
      * 连接数
-     *
      */
     private static AtomicInteger onlineCount = new AtomicInteger(0);
-
 
     /**
      *  用于存所有的连接服务的客户端，这个对象存储是安全的
@@ -86,20 +80,7 @@ public class WebSocket {
 
     @OnMessage
     public void OnMessage(String message){
-//        logger.info("[WebSocket] 退出成功，当前连接人数为：={},shi{}",webSocketSet.size(),webSocketSet.keySet());
-//        String data = JSON.parse(message).toString();//去除转义字符
-//        final MessageVO messageVO = JSON.parseObject(data, MessageVO.class);
-//        log.info("[WebSocket] 收到{}发送给{}的消息：{}",messageVO.getFroms(),messageVO.getToo(),messageVO.getMessage());
-//        //保存message
-//        messageVO.setId(UUID.randomUUID().toString());
-//        messageVO.setStatus(false); //默认是在线消息
-//        messageService.save(messageVO);
-//        //转发message
-//        if(messageVO.getFlag()) {
-//            AppointSending(messageVO);
-//        } else {
-//            GroupSending(messageVO.getMessage());
-//        }
+
     }
 
     /**
@@ -107,7 +88,9 @@ public class WebSocket {
      * @param
      * @param
      */
-    public void AppointSending(  ){
+    public void AppointSending() {
+
+
 //        try {
 //            System.out.println(webSocketSet.keySet());
 //            System.out.println("包含"+ messageVO.getToo());
