@@ -32,10 +32,8 @@ public class BuildTriggerController {
         BuildInfo buildInfo = buildInfoService.getById(id);
         if (buildInfo == null) throw new Exception("构建信息未找到");
         if (!token.equals(buildInfo.getTriggerToken())) throw new Exception("token不匹配");
-
         //开始构建
         threadPoolExecutor.execute(new BuildService(buildInfo));
-
         return CommonResult.success("开始构建");
     }
 
@@ -47,10 +45,8 @@ public class BuildTriggerController {
     public CommonResult manualTrigger(@PathVariable String id) throws Exception {
         BuildInfo buildInfo = buildInfoService.getById(id);
         if (buildInfo == null) throw new Exception("构建信息未找到");
-
         //开始构建
         threadPoolExecutor.execute(new BuildService(buildInfo));
-
         return CommonResult.success("开始构建");
 
     }
