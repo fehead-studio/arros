@@ -58,6 +58,7 @@ public class BuildService implements Runnable{
 
         for (Supplier<Boolean> booleanSupplier : list) {
             if (!booleanSupplier.get()) {
+                buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILD_FAILED);
                 break;
             }
         }
@@ -118,7 +119,6 @@ public class BuildService implements Runnable{
         } catch (MavenInvocationException e) {
             e.printStackTrace();
             log.error("构建时出现错误:{}",e.getMessage());
-            buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILD_FAILED);
             return false;
         }
 

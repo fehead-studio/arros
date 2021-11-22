@@ -1,5 +1,6 @@
 package cn.arros.server.service;
 
+import cn.arros.server.constant.BuildStatus;
 import cn.arros.server.constant.ConfigType;
 import cn.arros.server.entity.BuildHistory;
 import cn.arros.server.entity.BuildInfo;
@@ -9,9 +10,7 @@ import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;
 import cn.hutool.extra.spring.SpringUtil;
 import org.apache.sshd.client.SshClient;
-import org.apache.sshd.client.channel.ClientChannel;
 import org.apache.sshd.client.session.ClientSession;
-import org.apache.sshd.sftp.client.SftpClient;
 import org.apache.sshd.sftp.client.SftpClientFactory;
 import org.apache.sshd.sftp.client.fs.SftpFileSystem;
 
@@ -44,23 +43,16 @@ public class DeployService implements Runnable{
 
     private final BuildInfo buildInfo;
     private final BuildHistory buildHistory;
-    private Node node;
     private SshClient sshClient;
     private ClientSession session;
     private SftpFileSystem fs;
     private Path targetPath;
+    private final BuildHistoryService buildHistoryService = SpringUtil.getBean(BuildHistoryService.class);
 
     public DeployService(BuildInfo buildInfo, BuildHistory buildHistory) {
         this.buildInfo = buildInfo;
         this.buildHistory = buildHistory;
     }
-
-    public DeployService(BuildInfo buildInfo, BuildHistory buildHistory, Node node) {
-        this.buildInfo = buildInfo;
-        this.buildHistory = buildHistory;
-        this.node = node;
-    }
-
 
     @Override
     public void run() {
@@ -72,18 +64,18 @@ public class DeployService implements Runnable{
 
         for (Supplier<Boolean> booleanSupplier : list) {
             if (!booleanSupplier.get()) {
+                buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.DEPLOY_FAILED);
                 break;
             }
         }
+        buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.DEPLOY_COMPLETED);
     }
 
     // TODO: 使用公钥连接
     private boolean connect() {
+        NodeMapper nodeMapper = SpringUtil.getBean(NodeMapper.class);
+        Node node = nodeMapper.selectById(buildInfo.getNodeId());
 
-        if (node == null) {
-            NodeMapper nodeMapper = SpringUtil.getBean(NodeMapper.class);
-            node = nodeMapper.selectById(buildInfo.getNodeId());
-        }
         sshClient = SshClient.setUpDefaultClient();
         sshClient.start();
 
@@ -101,8 +93,6 @@ public class DeployService implements Runnable{
             session.addPasswordIdentity(symmetricCrypto.decryptStr(node.getPassword()));
             session.auth().verify(2, TimeUnit.MINUTES);
 
-            SftpClientFactory factory = SftpClientFactory.instance();
-            SftpClient sftpClient = factory.createSftpClient(session);
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -117,18 +107,13 @@ public class DeployService implements Runnable{
             String buildPath = arrosProperties.getConfig(ConfigType.BUILD).getConfigValue();
             Path remotePath = fs.getDefaultDir()
                     .resolve(buildPath)
-                    .resolve(buildInfo.getId())
-                    .resolve(buildHistory.getId());
+                    .resolve(buildInfo.getId());
             if (!Files.exists(remotePath)) Files.createDirectories(remotePath);
+            targetPath = remotePath.resolve("app.jar");
 
-            File file = new File(
-                    buildInfo.getResultPath() + "/" + buildHistory.getId(),
-                    buildHistory.getResultName()
-            );
-
-            targetPath = remotePath.resolve(buildHistory.getResultName());
-
+            File file = new File(buildHistory.getResultName());
             InputStream inputStream = new FileInputStream(file);
+            Files.deleteIfExists(targetPath);
             Files.copy(inputStream, targetPath);
         } catch (IOException e) {
             e.printStackTrace();
@@ -139,10 +124,12 @@ public class DeployService implements Runnable{
     private boolean execCommand() {
         try {
             String res = session.executeRemoteCommand("nohup java -jar " + targetPath + " >/dev/null 2>&1 & echo $!");
+            System.out.println(res);
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
+        return true;
     }
 
     private boolean closeConnect() {
