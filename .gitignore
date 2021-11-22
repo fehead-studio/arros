@@ -62,3 +62,4 @@ arros-run/src/main/resources/config/generatorConfig.xml
 *.sql
 
 CodeGenerator.java
+*-logs
