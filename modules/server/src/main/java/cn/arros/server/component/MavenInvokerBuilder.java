@@ -1,9 +1,13 @@
 package cn.arros.server.component;
 
 import cn.arros.server.constant.ConfigType;
+import cn.arros.server.log.SLF4JInvokerLogger;
+import cn.arros.server.log.SLF4JOutputHandler;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.extra.spring.SpringUtil;
 import org.apache.maven.shared.invoker.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -16,10 +20,16 @@ import java.util.Arrays;
  */
 @Component
 public class MavenInvokerBuilder {
+    private final static Logger logger = LoggerFactory.getLogger(SLF4JInvokerLogger.class);
+
     private final Invoker invoker;
 
     public MavenInvokerBuilder() {
-        this.invoker = new DefaultInvoker().setMavenHome(new File(System.getenv("MAVEN_HOME")));
+        this.invoker = new DefaultInvoker();
+        invoker.setMavenHome(new File(System.getenv("MAVEN_HOME")));
+        invoker.setLogger(new SLF4JInvokerLogger(logger));
+        invoker.setOutputHandler(new SLF4JOutputHandler(logger));
+        invoker.setErrorHandler(new SLF4JOutputHandler(logger));
     }
 
     // 格式为 mvn package <command>
