@@ -12,6 +12,7 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 import java.io.Serializable;
 
 /**
+ * 自定义Appender,将日志输出到WebSocket
  * @Author Verge
  * @Date 2021/11/21 16:25
  * @Version 1.0
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @Plugin(name = "WebSocketAppender", category = Core.CATEGORY_NAME, elementType = Appender.ELEMENT_TYPE, printObject = true)
 public class WebSocketAppender extends AbstractAppender {
 
-    private LoggerQueue loggerQueue  = LoggerQueue.getInstance();
+    private final LoggerQueue loggerQueue  = LoggerQueue.getInstance();
 
     protected WebSocketAppender(String name,
                                 Filter filter,

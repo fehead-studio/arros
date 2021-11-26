@@ -13,6 +13,6 @@ public class ThreadPool {
     @Bean
     public ThreadPoolExecutor threadPoolExecutor() {
         BlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
-        return new ThreadPoolExecutor(3, 10, 1, TimeUnit.HOURS, workQueue);
+        return new ThreadPoolExecutor(10, 20, 1, TimeUnit.MINUTES, workQueue);
     }
 }
