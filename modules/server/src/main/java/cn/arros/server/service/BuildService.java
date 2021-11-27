@@ -16,6 +16,7 @@ import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,11 +33,13 @@ import java.util.function.Supplier;
  * @Version 1.0
  */
 public class BuildService implements Runnable{
-    private final static Logger log = LoggerFactory.getLogger(BuildService.class);
+    private final static Logger logger = LoggerFactory.getLogger(BuildService.class);
 
     private final BuildInfo buildInfo;
 
     private final BuildHistory buildHistory = new BuildHistory();
+
+    private final String buildHistoryId = MDC.get("buildHistoryId");
 
     private final BuildHistoryService buildHistoryService = SpringUtil.getBean(BuildHistoryService.class);
 
@@ -58,7 +61,7 @@ public class BuildService implements Runnable{
 
         for (Supplier<Boolean> booleanSupplier : list) {
             if (!booleanSupplier.get()) {
-                buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILD_FAILED);
+                buildHistoryService.updateBuildStatus(buildHistoryId, BuildStatus.BUILD_FAILED);
                 break;
             }
         }
@@ -78,11 +81,17 @@ public class BuildService implements Runnable{
      * @return 成功与否
      */
     private boolean prepare() {
-        log.info("进入准备阶段");
-
+        logger.info("进入准备阶段");
+        if (buildHistoryId == null) {
+            logger.error("buildHistoryId为null");
+            return false;
+        }
+        // 设置基本信息
         buildHistory.setStartTime(LocalDateTime.now());
         buildHistory.setBuildInfoId(buildInfo.getId());
+        buildHistory.setId(buildHistoryId);
 
+        // 更新状态
         buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.PREPARING);
 
         return buildHistoryService.save(buildHistory);
@@ -93,7 +102,7 @@ public class BuildService implements Runnable{
      * @return 成功与否
      */
     private boolean updateSource() {
-        log.info("正在更新代码");
+        logger.info("正在更新代码");
         buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILDING);
 
         try {
@@ -111,19 +120,19 @@ public class BuildService implements Runnable{
      * @return 成功与否
      */
     private boolean build() {
-        log.info("开始构建");
+        logger.info("开始构建");
         String repoId = buildInfo.getRepoId();
 
         try {
             mavenInvokerBuilder.build(buildInfo.getRepoId(), buildInfo.getBuildCommand());
         } catch (MavenInvocationException e) {
             e.printStackTrace();
-            log.error("构建时出现错误:{}",e.getMessage());
+            logger.error("构建时出现错误:{}",e.getMessage());
             return false;
         }
 
         buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.BUILD_COMPLETED);
-        log.info("构建成功");
+        logger.info("构建成功");
 
         // 将jar移动到指定目录便于管理
         ArrosProperties arrosProperties = SpringUtil.getBean(ArrosProperties.class);
@@ -131,6 +140,7 @@ public class BuildService implements Runnable{
         String[] fileList = gitRepoPath.list();
         Objects.requireNonNull(fileList, "文件夹为空");
 
+        // TODO：查找jar的方式有待改进
         String reg = "^(?!original-).*\\.jar";
         String jarName = null;
         for (String file : fileList) {
@@ -147,7 +157,7 @@ public class BuildService implements Runnable{
                 jarName);
         File resultPath = FileUtil.copy(jarPath, targetPath, true);
 
-        log.info("移动jar包至：{}", resultPath.getAbsolutePath());
+        logger.info("移动jar包至：{}", resultPath.getAbsolutePath());
         buildHistory.setResultName(resultPath.getAbsolutePath());
         buildHistoryService.updateById(buildHistory);
 
@@ -156,10 +166,10 @@ public class BuildService implements Runnable{
 
 
     private boolean deploy(){
-        log.info("开始部署");
+        logger.info("开始部署");
         // 部署
         if (Objects.equals(buildInfo.getDeployType(), DeployType.DEPLOY_TO_HOST.getType())) {
-            threadPoolExecutor.execute(new DeployService(buildInfo, buildHistory));
+            new DeployService(buildInfo, buildHistory).run();
             buildHistoryService.updateBuildStatus(buildHistory.getId(), BuildStatus.DEPLOYING);
         } else {
             // 不部署

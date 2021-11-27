@@ -8,27 +8,27 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @Date 2021/11/21 18:46
  * @Version 1.0
  */
-public class LoggerQueue {
+public class LogQueue {
     //队列大小
-    public static final int QUEUE_MAX_SIZE = Integer.MAX_VALUE;
-    private static final LoggerQueue alarmMessageQueue = new LoggerQueue();
+    public static final int QUEUE_MAX_SIZE = 10000;
+    private static final LogQueue logQueue = new LogQueue();
     //阻塞队列
-    private final BlockingQueue<String> queue = new LinkedBlockingQueue<>(QUEUE_MAX_SIZE);
+    private final BlockingQueue<LogDto> queue = new LinkedBlockingQueue<>(QUEUE_MAX_SIZE);
 
-    public static LoggerQueue getInstance() {
-        return alarmMessageQueue;
+    public static LogQueue getInstance() {
+        return logQueue;
     }
     /**
      * 消息入队
      */
-    public boolean push(String log) {
-        return this.queue.add(log);
+    public void push(LogDto logDto) {
+        this.queue.add(logDto);
     }
     /**
      * 消息出队
      */
-    public String pop() {
-        String result = null;
+    public LogDto pop() {
+        LogDto result = null;
         try {
             result = this.queue.take();
         } catch (InterruptedException e) {

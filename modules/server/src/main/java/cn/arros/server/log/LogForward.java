@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -24,14 +22,20 @@ public class LogForward {
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
 
-    private final LoggerQueue loggerQueue = LoggerQueue.getInstance();
+    private final LogQueue logQueue = LogQueue.getInstance();
 
     @Bean
     public void pushLogs() {
+        // TODO: 为了"/topic/buildLog"可以看到总日志，"/topic/buildLog/xxx"看到每次构建的日志，这里将一条消息发送了两次，有待改进
         threadPoolExecutor.execute(() -> {
             while (true) {
-                String message = loggerQueue.pop();
-                messagingTemplate.convertAndSend("/topic/log", message);
+                LogDto logDto = logQueue.pop();
+                String message = logDto.getLog();
+                if (logDto.getBuildHistoryId() != null) {
+                    String destination = "/topic/buildLog/" + logDto.getBuildHistoryId();
+                    messagingTemplate.convertAndSend(destination, message);
+                }
+                messagingTemplate.convertAndSend("/topic/buildLog", message);
             }
         });
     }
