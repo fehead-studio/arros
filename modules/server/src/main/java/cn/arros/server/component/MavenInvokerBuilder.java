@@ -8,6 +8,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import org.apache.maven.shared.invoker.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -20,7 +21,9 @@ import java.util.Arrays;
  */
 @Component
 public class MavenInvokerBuilder {
-    private final static Logger logger = LoggerFactory.getLogger(SLF4JInvokerLogger.class);
+    private static final Logger DEFAULT_LOGGER = LoggerFactory.getLogger(MavenInvokerBuilder.class);
+
+    private static final Logger logger = DEFAULT_LOGGER;
 
     private final Invoker invoker;
 

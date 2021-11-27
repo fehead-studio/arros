@@ -13,15 +13,24 @@ function setConnected(connected) {
 }
 
 function connect() {
-    var socket = new SockJS('websocket');
+    let socket = new SockJS('websocket');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/log', function (greeting) {
-            console.log(greeting)
-            showGreeting(greeting.body);
-        });
+    });
+}
+
+function subscribe() {
+    let id = $("#name").val();
+    let des;
+    if (id.length === 0) {
+        des = '/topic/buildLog';
+    } else {
+        des = '/topic/buildLog/' + id;
+    }
+    stompClient.subscribe(des, function (greeting) {
+        showGreeting(greeting.body);
     });
 }
 
@@ -47,6 +56,6 @@ $(function () {
     });
     $( "#connect" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
+    $( "#send" ).click(function() { subscribe(); });
 });
 
