@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "arros.plugin.enable",
+      "type": "java.lang.String",
+      "description": "Description for arros.plugin.enable."
+    },
+    {
+      "name": "arros.plugin.server",
+      "type": "java.lang.String",
+      "description": "Description for arros.plugin.server."
+    }
+  ] }
