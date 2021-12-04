@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.arros.plugin.core.AutoConfiguration
+cn.arros.plugin.core.AutoConfiguration

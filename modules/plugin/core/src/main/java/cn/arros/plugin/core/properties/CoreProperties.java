@@ -1,4 +1,4 @@
-package com.arros.plugin.core.properties;
+package cn.arros.plugin.core.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

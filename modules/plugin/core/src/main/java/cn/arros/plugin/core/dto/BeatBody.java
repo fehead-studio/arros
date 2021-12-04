@@ -1,4 +1,4 @@
-package com.arros.plugin.core.dto;
+package cn.arros.plugin.core.dto;
 
 import org.springframework.beans.factory.annotation.Value;
 

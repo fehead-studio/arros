@@ -1,16 +1,14 @@
-package com.arros.plugin.core;
+package cn.arros.plugin.core;
 
-import com.arros.plugin.core.component.HeartBeat;
-import com.arros.plugin.core.dto.BeatBody;
-import com.arros.plugin.core.properties.CoreProperties;
+import cn.arros.plugin.core.component.HeartBeat;
+import cn.arros.plugin.core.dto.BeatBody;
+import cn.arros.plugin.core.properties.CoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;

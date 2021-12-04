@@ -15,8 +15,10 @@ import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +44,6 @@ public class BuildService implements Runnable{
     private final String buildHistoryId = MDC.get("buildHistoryId");
 
     private final BuildHistoryService buildHistoryService = SpringUtil.getBean(BuildHistoryService.class);
-
-    private final ThreadPoolExecutor threadPoolExecutor = SpringUtil.getBean(ThreadPoolExecutor.class);
 
     private final MavenInvokerBuilder mavenInvokerBuilder = SpringUtil.getBean(MavenInvokerBuilder.class);
 
