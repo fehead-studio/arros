@@ -1,7 +1,7 @@
 package cn.arros.plugin.core;
 
 import cn.arros.plugin.core.component.HeartBeat;
-import cn.arros.plugin.core.dto.BeatBody;
+import cn.arros.plugin.core.dto.HeartBeatBody;
 import cn.arros.plugin.core.properties.CoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import javax.annotation.PostConstruct;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -35,8 +36,11 @@ public class AutoConfiguration {
     @Autowired
     private Environment environment;
 
-    @Scheduled(fixedDelay = 10000)
-    public void beat() {
+    private String id;
+
+
+    @PostConstruct
+    public void init() {
         String port = environment.getProperty("server.port");
         String name = environment.getProperty("spring.application.name");
         InetAddress localHost = null;
@@ -47,8 +51,14 @@ public class AutoConfiguration {
         }
 
         assert localHost != null;
-        BeatBody beatBody = new BeatBody(name, localHost.getHostAddress(), port);
+        HeartBeatBody heartBeatBody = new HeartBeatBody(name, localHost.getHostAddress(), port);
 
-        HeartBeat.beat(beatBody, properties.getServer());
+        id = HeartBeat.register(heartBeatBody, properties.getServer());
+    }
+
+
+    @Scheduled(fixedDelay = 10000)
+    public void beat() {
+        HeartBeat.beat(id, properties.getServer());
     }
 }
