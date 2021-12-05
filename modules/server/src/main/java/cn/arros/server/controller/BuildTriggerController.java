@@ -3,15 +3,16 @@ package cn.arros.server.controller;
 import cn.arros.server.common.CommonResult;
 import cn.arros.server.component.annotation.TraceBuild;
 import cn.arros.server.entity.BuildInfo;
-import cn.arros.server.service.BuildService;
 import cn.arros.server.service.BuildInfoService;
+import cn.arros.server.service.BuildService;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.function.BiConsumer;
 
 /**
  * @Author Verge
