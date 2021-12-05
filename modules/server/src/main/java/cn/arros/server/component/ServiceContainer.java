@@ -60,6 +60,7 @@ public class ServiceContainer {
      * 刷新服务的状态
      * @param id
      */
+    // TODO: 需要给用户一个友好的返回
     public void refresh(String id) {
         ServiceInfo serviceInfo = container.get(id);
         if (serviceInfo == null) {
@@ -74,7 +75,7 @@ public class ServiceContainer {
      */
     @Scheduled(fixedDelay = 30000)
     public void checkStatus() {
-        LOGGER.info("检测服务状态中...");
+        LOGGER.debug("检测服务状态中...");
         container.keySet().stream()
                 .map(container::get)
                 .forEach(service -> {
