@@ -36,9 +36,6 @@ public class AutoConfiguration {
     @Autowired
     private Environment environment;
 
-    private String id;
-
-
     @PostConstruct
     public void init() {
         String port = environment.getProperty("server.port");
@@ -49,16 +46,14 @@ public class AutoConfiguration {
         } catch (UnknownHostException e) {
             LOGGER.error(e.getMessage(),e);
         }
-
         assert localHost != null;
+
         HeartBeatBody heartBeatBody = new HeartBeatBody(name, localHost.getHostAddress(), port);
-
-        id = HeartBeat.register(heartBeatBody, properties.getServer());
+        HeartBeat.init(heartBeatBody, properties.getServer());
     }
-
 
     @Scheduled(fixedDelay = 10000)
     public void beat() {
-        HeartBeat.beat(id, properties.getServer());
+        HeartBeat.getInstance().beat();
     }
 }

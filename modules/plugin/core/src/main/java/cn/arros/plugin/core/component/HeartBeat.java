@@ -1,11 +1,12 @@
 package cn.arros.plugin.core.component;
 
+import cn.arros.plugin.core.dto.HeartBeatBody;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import cn.arros.plugin.core.dto.HeartBeatBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 /**
  * @Author Verge
@@ -15,7 +16,18 @@ import org.slf4j.LoggerFactory;
 public class HeartBeat{
     private final static Logger LOGGER = LoggerFactory.getLogger(HeartBeat.class);
 
-    public static String register(HeartBeatBody heartBeatBody, String serverHost) {
+    private static HeartBeat heartBeat;
+
+    private final String serviceId;
+    private final String serverHost;
+
+
+    public HeartBeat(String serviceId, String serverHost) {
+        this.serviceId = serviceId;
+        this.serverHost = serverHost;
+    }
+
+    public static void init(HeartBeatBody heartBeatBody, String serverHost) {
         LOGGER.info("注册: " + heartBeatBody);
 
         String response = HttpRequest
@@ -23,21 +35,34 @@ public class HeartBeat{
                 .body(JSONUtil.toJsonStr(heartBeatBody))
                 .execute()
                 .body();
-
-        LOGGER.info(response);
         JSONObject jsonObject = new JSONObject(response);
-        return jsonObject.getStr("data");
+        String serviceId = jsonObject.getStr("data");
+        heartBeat = new HeartBeat(serviceId, serverHost);
+
+        LOGGER.info("注册成功");
     }
 
-    public static void beat(String id, String serverHost) {
-        LOGGER.debug("发送心跳:" + id);
+    public static HeartBeat getInstance() {
+        return heartBeat;
+    }
+
+    public void beat() {
+        LOGGER.debug("发送心跳");
 
         String response = HttpRequest
                 .post(serverHost + "/beat")
-                .form("id", id)
+                .form("id", serviceId)
                 .execute()
                 .body();
 
         LOGGER.info(response);
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public String getServerHost() {
+        return serverHost;
     }
 }
