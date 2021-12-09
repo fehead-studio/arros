@@ -3,6 +3,8 @@ package cn.arros.server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * @Author Verge
  * @Date 2021/10/30 23:47
@@ -10,6 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class ServerApplication {
+    static {
+        // MDC向子线程传递上下文
+        System.setProperty("log4j2.isThreadContextMapInheritable", "true");
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(ServerApplication.class, args);
     }

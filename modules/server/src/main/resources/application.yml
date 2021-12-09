@@ -1,10 +1,7 @@
-server:
-  port: 4567
-
 spring:
   profiles:
     active: dev
 
-arros:
-  git:
-    path: /adss
+server:
+  port: 4567
+

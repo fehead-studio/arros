@@ -31,13 +31,11 @@ public class BuildInfoServiceImpl extends ServiceImpl<BuildInfoMapper, BuildInfo
 
     @Override
     public int addBuildInfo(BuildInfo buildInfo) {
-        buildInfo.setResultPath(arrosProperties.getConfig(ConfigType.BUILD).getConfigValue() + "/" + buildInfo.getId());
-
         buildInfo.setId(IdUtil.fastSimpleUUID());
         buildInfo.setTriggerToken(RandomUtil.randomString(10));
 
-        Path resultPath = Paths.get(arrosProperties.getBuild().getPath(),
-                buildInfo.getId(),
+        Path resultPath = Paths.get(arrosProperties.getConfig(ConfigType.GIT).getConfigValue(),
+                buildInfo.getRepoId(),
                 buildInfo.getResultPath());
 
         buildInfo.setResultPath(resultPath.toString());
