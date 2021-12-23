@@ -1,6 +1,6 @@
 package cn.arros.plugin.core.component;
 
-import cn.arros.plugin.core.dto.HeartBeatBody;
+import cn.arros.common.dto.HeartBeatBody;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;

@@ -1,7 +1,7 @@
 package cn.arros.plugin.core;
 
+import cn.arros.common.dto.HeartBeatBody;
 import cn.arros.plugin.core.component.HeartBeat;
-import cn.arros.plugin.core.dto.HeartBeatBody;
 import cn.arros.plugin.core.properties.CoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
