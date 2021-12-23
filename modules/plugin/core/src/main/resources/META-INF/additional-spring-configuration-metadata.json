@@ -3,11 +3,11 @@
     {
       "name": "arros.plugin.enable",
       "type": "java.lang.String",
-      "description": "Description for arros.plugin.enable."
+      "description": "是否开启插件"
     },
     {
       "name": "arros.plugin.server",
       "type": "java.lang.String",
-      "description": "Description for arros.plugin.server."
+      "description": "服务器地址"
     }
   ] }

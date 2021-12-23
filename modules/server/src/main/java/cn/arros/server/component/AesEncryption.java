@@ -20,7 +20,7 @@ public class AesEncryption {
 
     @Bean
     public SymmetricCrypto getSymmetricCrypto(){
-        String key = arrosProperties.getConfig(ConfigType.AES).getConfigValue();
+        String key = arrosProperties.getConfig(ConfigType.AES_KEY);
         byte[] byteKey = key.getBytes();
         return new SymmetricCrypto(SymmetricAlgorithm.AES,byteKey);
     }

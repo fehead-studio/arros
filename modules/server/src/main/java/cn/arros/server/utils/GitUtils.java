@@ -36,7 +36,7 @@ public class GitUtils {
      */
     public static Git clone(String url, String filename) throws GitAPIException {
         System.out.println(arrosProperties);
-        File file = new File(arrosProperties.getConfig(ConfigType.GIT).getConfigValue() + "/" +filename);
+        File file = new File(arrosProperties.getConfig(ConfigType.REPO_PATH) + "/" +filename);
         log.info("从{}克隆至{}", url, file.getAbsolutePath());
         return Git.cloneRepository()
                 .setURI(url)
@@ -52,7 +52,7 @@ public class GitUtils {
      */
     public static Repository openLocalRepo(String repoId) throws IOException {
         FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        File repoDir = new File(arrosProperties.getConfig(ConfigType.GIT).getConfigValue() + "/" + repoId + "/.git");
+        File repoDir = new File(arrosProperties.getConfig(ConfigType.REPO_PATH) + "/" + repoId + "/.git");
         boolean isRepo = RepositoryCache.FileKey.isGitRepository(repoDir, FS.DETECTED);
         if(!isRepo) {
             throw new RepositoryNotFoundException("该目录不是git仓库");

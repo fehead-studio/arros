@@ -4,15 +4,11 @@ import cn.arros.server.constant.ConfigType;
 import cn.arros.server.entity.SysConfig;
 import cn.arros.server.service.ISysConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -24,119 +20,62 @@ import java.util.concurrent.ConcurrentMap;
  **/
 @Configuration
 public class ArrosProperties {
+    // protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ISysConfigService sysConfigService;
 
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    private ConcurrentMap<String,SysConfig> configs = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, String> configs = new ConcurrentHashMap<>();
 
     /**
      * 初始化加载所有配置到内存
      */
     @PostConstruct
     public void init() {
-        this.loadFromDB(ConfigType.values());
+        sysConfigService.list()
+                .forEach(config -> configs.put(config.getConfigKey(),config.getConfigValue()));
     }
 
     /**
      * 从数据库加载系统配置
-     * @param types
+     * @param configKeys
      */
-    public void loadFromDB(ConfigType... types) {
-        if(null == types) {
-            throw new RuntimeException("配置加载错误");
+    public void loadFromDB(String... configKeys) {
+        for (String configKey : configKeys) {
+            SysConfig sysConfig = sysConfigService.getOne(
+                    new QueryWrapper<SysConfig>().eq("config_key", configKey)
+            );
+            configs.put(sysConfig.getConfigKey(), sysConfig.getConfigValue());
         }
-        Arrays.stream(types).forEach(type -> {
-            final SysConfig sysConfig = sysConfigService.getOne(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type.getName()));
-            if(sysConfig != null) {
-                configs.put(type.getName(), sysConfig);
-            } else {
-                logger.error(type.getName()+"配置文件加载错误");
-            }
-        });
-    }
-
-    /**
-     * 根据配置类型数据库拿取配置
-     * @param type
-     * @return
-     */
-    public SysConfig getConfig(ConfigType type) {
-        if(type.getName() == null) {
-            throw new RuntimeException("请传入配置类型");
-        }
-        final SysConfig sysConfig = configs.get(type.getName());
-        if(sysConfig == null) {
-            throw new RuntimeException("系统暂不支持该类型配置");
-        }
-        return sysConfig;
     }
 
     /**
      * 根据配置名从数据库获取配置
-     * @param type
-     * @return
+     * @param configKey
+     * @return configVal
      */
-    public SysConfig getConfig(String type) {
-        if(type == null || type == "") {
-            throw new RuntimeException("请传入配置类型");
+    public String getConfig(String configKey) {
+        if (configKey == null) {
+            throw  new RuntimeException("configKey不能为空");
         }
-        final SysConfig sysConfig = configs.get(type.toUpperCase());
-        if(sysConfig == null) {
-            throw new RuntimeException("系统暂不支持该类型配置");
-        }
-        return sysConfig;
+        String configVal = configs.get(configKey);
+        return Objects.requireNonNull(configVal);
+    }
+
+    public String getConfig(ConfigType configType) {
+        return getConfig(configType.getConfigKey());
     }
 
     /**
      * 更新配置
-     * @param type
+     * @param config
      * @return
      */
-    public boolean updateConfig(SysConfig type) {
-        sysConfigService.update(new QueryWrapper<SysConfig>().eq(isContainType(type), "config_name", type.getConfigValue()));
-        final ConfigType configType = ConfigType.valueOf(type.getConfigName().toUpperCase());
-        this.loadFromDB(queryConfig(type.getConfigName()));
-        return true;
-    }
-
-    /**
-     * 判断是否包含支持配置类型
-     * @param type
-     * @return
-     */
-    private boolean isContainType(Object type) {
-        for(ConfigType element :ConfigType.values()) {
-            if(type instanceof String) {
-                if(element.getName().equalsIgnoreCase((String) type)) {
-                    return true;
-                }
-            } else if(type instanceof ConfigType) {
-                if(element.equals(type)) {
-                    return true;
-                }
-            } else {
-                if(type.equals(element.getType())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 根据名称获取内置配置类型
-     * @param type
-     * @return
-     */
-    private ConfigType queryConfig(String type) {
-        for(ConfigType t : ConfigType.values()) {
-            if(t.getName().equalsIgnoreCase(type)) {
-                return t;
-            }
-        }
-        return null;
+    public boolean updateConfig(SysConfig config) {
+       if (sysConfigService.updateById(config)) {
+           loadFromDB(config.getConfigKey());
+           return true;
+       }
+       return false;
     }
 }

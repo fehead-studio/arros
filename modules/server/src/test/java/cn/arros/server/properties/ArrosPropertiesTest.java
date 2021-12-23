@@ -19,6 +19,6 @@ public class ArrosPropertiesTest {
 
     @Test
     void testValueOf() {
-        System.out.println(arrosProperties.getConfig(ConfigType.GIT));
+        System.out.println(arrosProperties.getConfig(ConfigType.REPO_PATH));
     }
 }

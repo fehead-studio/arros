@@ -11,6 +11,7 @@ public class ServiceInfo {
     private String name;
     private String host;
     private String port;
+    private String pid;
     private Long ttl;
     private ServiceStatus status;
 
@@ -52,5 +53,13 @@ public class ServiceInfo {
 
     public void setStatus(ServiceStatus status) {
         this.status = status;
+    }
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
     }
 }
