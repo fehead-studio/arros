@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.annotation.PostConstruct;
+import java.lang.management.ManagementFactory;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -36,6 +37,11 @@ public class AutoConfiguration {
     @Autowired
     private Environment environment;
 
+    /**
+     * 初始化
+     * 获取端口、名称、IP、PID后向server进行注册
+     * TODO：此处查询到的IP是本地IP
+     */
     @PostConstruct
     public void init() {
         String port = environment.getProperty("server.port");
@@ -48,7 +54,9 @@ public class AutoConfiguration {
         }
         assert localHost != null;
 
-        HeartBeatBody heartBeatBody = new HeartBeatBody(name, localHost.getHostAddress(), port);
+        String pid = ManagementFactory.getRuntimeMXBean().getName().split("@")[0];
+
+        HeartBeatBody heartBeatBody = new HeartBeatBody(name, localHost.getHostAddress(), port, pid);
         HeartBeat.init(heartBeatBody, properties.getServer());
     }
 

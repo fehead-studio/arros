@@ -31,7 +31,7 @@ public class LogCollectorAppender extends AbstractAppender {
         super(name, filter, layout, ignoreExceptions, properties);
     }
 
-    // TODO：可以在xml文件中传递serverHost
+    // TODO：可以用一个List暂存日志，达到一定阈值后发送
     @Override
     public void append(LogEvent event) {
         // 这个if的作用是判断当连接建立后再发送日志

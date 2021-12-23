@@ -10,11 +10,13 @@ public class HeartBeatBody {
     private String name;
     private String host;
     private String port;
+    private String pid;
 
-    public HeartBeatBody(String name, String host, String port) {
+    public HeartBeatBody(String name, String host, String port, String pid) {
         this.name = name;
         this.host = host;
         this.port = port;
+        this.pid = pid;
     }
 
     public String getName() {
@@ -49,6 +51,14 @@ public class HeartBeatBody {
         this.id = id;
     }
 
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
     @Override
     public String toString() {
         return "HeartBeatBody{" +
@@ -56,6 +66,7 @@ public class HeartBeatBody {
                 ", name='" + name + '\'' +
                 ", host='" + host + '\'' +
                 ", port='" + port + '\'' +
+                ", pid='" + pid + '\'' +
                 '}';
     }
 }
