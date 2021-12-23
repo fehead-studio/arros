@@ -1,4 +1,4 @@
-package cn.arros.plugin.core.dto;
+package cn.arros.common.dto;
 
 /**
  * @Author Verge
