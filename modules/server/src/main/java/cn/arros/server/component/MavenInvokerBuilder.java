@@ -38,7 +38,7 @@ public class MavenInvokerBuilder {
     // 格式为 mvn package <command>
     public void build (String repoId, String command) throws MavenInvocationException {
         ArrosProperties arrosProperties = SpringUtil.getBean(ArrosProperties.class);
-        String basePath = arrosProperties.getConfig(ConfigType.GIT).getConfigValue();
+        String basePath = arrosProperties.getConfig(ConfigType.REPO_PATH);
 
         InvocationRequest request = new DefaultInvocationRequest();
         request.setBaseDirectory(new File(basePath, repoId));

@@ -15,10 +15,8 @@ import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
-
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.function.Supplier;
 
 /**
@@ -151,7 +148,7 @@ public class BuildService implements Runnable{
         }
         Objects.requireNonNull(jarName,"未找到Jar包");
         File jarPath = FileUtil.file(gitRepoPath, jarName);
-        File targetPath = FileUtil.file(arrosProperties.getConfig(ConfigType.BUILD).getConfigValue(),
+        File targetPath = FileUtil.file(arrosProperties.getConfig(ConfigType.BUILD_PATH),
                 buildInfo.getId(),
                 buildHistory.getId(),
                 jarName);

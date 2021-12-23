@@ -25,8 +25,8 @@ public class SysConfig extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键配置id")
-    @TableId(value = "config_id", type = IdType.AUTO)
-    private Integer configId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     @ApiModelProperty("配置键")
     private String configKey;
@@ -37,36 +37,24 @@ public class SysConfig extends BaseEntity implements Serializable {
     @ApiModelProperty("配置值")
     private String configValue;
 
-    @ApiModelProperty("配置类型")
-    private String configType;
-
-    @ApiModelProperty("创建者")
-    private String createBy;
-
-    @ApiModelProperty("更新者")
-    private String updateBy;
-
     @ApiModelProperty("备注")
     private String remark;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+
+    public Integer getId() {
+        return id;
     }
 
-    public Integer getConfig_id() {
-        return configId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public void setConfig_id(Integer config_id) {
-        this.configId = config_id;
-    }
-
-    public String getConfig_key() {
+    public String getConfigKey() {
         return configKey;
     }
 
-    public void setConfig_key(String config_key) {
-        this.configKey = config_key;
+    public void setConfigKey(String configKey) {
+        this.configKey = configKey;
     }
 
     public String getConfigName() {
@@ -85,32 +73,6 @@ public class SysConfig extends BaseEntity implements Serializable {
         this.configValue = configValue;
     }
 
-    public String getConfigType() {
-        return configType;
-    }
-
-    public void setConfigType(String configType) {
-        this.configType = configType;
-    }
-
-    public String getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
-
-    public String getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(String updateBy) {
-        this.updateBy = updateBy;
-    }
-
-
-
     public String getRemark() {
         return remark;
     }
@@ -122,14 +84,11 @@ public class SysConfig extends BaseEntity implements Serializable {
     @Override
     public String toString() {
         return "SysConfig{" +
-                "config_id=" + configId +
-                ", config_key='" + configKey + '\'' +
+                "id=" + id +
+                ", configKey='" + configKey + '\'' +
                 ", configName='" + configName + '\'' +
                 ", configValue='" + configValue + '\'' +
-                ", configType='" + configType + '\'' +
-                ", createBy='" + createBy + '\'' +
-                ", updateBy='" + updateBy + '\'' +
                 ", remark='" + remark + '\'' +
-                '}';
+                "} " + super.toString();
     }
 }

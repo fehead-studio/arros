@@ -7,23 +7,24 @@ package cn.arros.server.constant;
  * @since 1.8
  **/
 public enum ConfigType {
-    GIT(1,"GIT"),
-    AES(2,"AES"),
-    BUILD(3,"BUILD");
+    REPO_PATH("repo.path","Git仓库地址"),
+    AES_KEY("aes.key","AES加密密钥"),
+    BUILD_PATH("build.path","构建产物地址"),
+    LOG_PATH("log.path","日志存放地址");
 
-    private final int type;
-    private final String name;
+    private final String configKey;
+    private final String des;
 
-    ConfigType(int type, String name) {
-        this.type = type;
-        this.name = name;
+    ConfigType(String configKey, String des) {
+        this.configKey = configKey;
+        this.des = des;
     }
 
-    public int getType() {
-        return type;
+    public String getConfigKey() {
+        return configKey;
     }
 
-    public String getName() {
-        return name;
+    public String getDes() {
+        return des;
     }
 }

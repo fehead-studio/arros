@@ -34,7 +34,7 @@ public class BuildInfoServiceImpl extends ServiceImpl<BuildInfoMapper, BuildInfo
         buildInfo.setId(IdUtil.fastSimpleUUID());
         buildInfo.setTriggerToken(RandomUtil.randomString(10));
 
-        Path resultPath = Paths.get(arrosProperties.getConfig(ConfigType.GIT).getConfigValue(),
+        Path resultPath = Paths.get(arrosProperties.getConfig(ConfigType.REPO_PATH),
                 buildInfo.getRepoId(),
                 buildInfo.getResultPath());
 
