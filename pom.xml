@@ -8,6 +8,7 @@
         <module>modules/common</module>
         <module>modules/server</module>
         <module>modules/plugin/core</module>
+        <module>modules/arros-cli</module>
     </modules>
 
     <parent>
