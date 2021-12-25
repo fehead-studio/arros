@@ -1,3 +1,6 @@
+package cn.arros.cli;
+
+import cn.arros.cli.cmd.Ping;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.console.SystemRegistry;
 import org.jline.console.impl.SystemRegistryImpl;
@@ -10,7 +13,6 @@ import org.jline.widget.TailTipWidgets;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.shell.jline3.PicocliCommands;
-import picocli.shell.jline3.PicocliCommands.PicocliCommandsFactory;
 
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -23,14 +25,9 @@ import java.util.function.Supplier;
  * @Version 1.0
  */
 public class ArrosCli {
-    /**
-     * Top-level command that just prints help.
-     */
-    @Command(
-            description = {"Arros项目命令行界面"},
-            subcommands = {
-                    PicocliCommands.ClearScreen.class,
-                    CommandLine.HelpCommand.class
+    @Command(subcommands = {
+                    CommandLine.HelpCommand.class,
+                    Ping.class
     })
     static class CliCommands implements Runnable {
         PrintWriter out;
@@ -50,8 +47,7 @@ public class ArrosCli {
             Supplier<Path> workDir = () -> Paths.get(System.getProperty("user.dir"));
 
             CliCommands commands = new CliCommands();
-            PicocliCommandsFactory factory = new PicocliCommandsFactory();
-            CommandLine cmd = new CommandLine(commands, factory);
+            CommandLine cmd = new CommandLine(commands);
             PicocliCommands picocliCommands = new PicocliCommands(cmd);
 
             Parser parser = new DefaultParser();
@@ -67,7 +63,6 @@ public class ArrosCli {
                         .variable(LineReader.LIST_MAX, 50)   // max tab completion candidates
                         .build();
                 commands.setReader(reader);
-                factory.setTerminal(terminal);
 
                 TailTipWidgets widgets = new TailTipWidgets(reader, systemRegistry::commandDescription, 5, TailTipWidgets.TipType.COMPLETER);
                 widgets.enable();
@@ -75,14 +70,13 @@ public class ArrosCli {
                 keyMap.bind(new Reference("tailtip-toggle"), KeyMap.alt("s"));
 
                 String prompt = "arros>";
-                String rightPrompt = null;
                 String line;
                 while (true) {
                     try {
                         systemRegistry.cleanUp();
-                        line = reader.readLine(prompt, rightPrompt, (MaskingCallback) null, null);
+                        line = reader.readLine(prompt);
                         systemRegistry.execute(line);
-                    } catch (EndOfFileException e) {
+                    } catch (EndOfFileException | UserInterruptException e) {
                         System.out.println("Bye!");
                         return;
                     } catch (Exception e) {
