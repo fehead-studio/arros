@@ -2,9 +2,8 @@ package cn.arros.server.controller;
 
 
 import cn.arros.server.common.CommonResult;
-import cn.arros.server.entity.Node;
+import cn.arros.common.entity.Node;
 import cn.arros.server.service.NodeService;
-import cn.hutool.core.util.IdUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

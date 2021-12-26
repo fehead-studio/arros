@@ -1,4 +1,4 @@
-package cn.arros.server.entity;
+package cn.arros.common.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

@@ -1,6 +1,6 @@
 package cn.arros.server.log;
 
-import cn.arros.server.entity.BuildHistory;
+import cn.arros.common.entity.BuildHistory;
 
 /**
  * @Author Verge

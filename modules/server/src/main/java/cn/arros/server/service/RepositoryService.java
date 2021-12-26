@@ -1,6 +1,6 @@
 package cn.arros.server.service;
 
-import cn.arros.server.entity.Repository;
+import cn.arros.common.entity.Repository;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.eclipse.jgit.api.errors.GitAPIException;
 

@@ -1,6 +1,6 @@
 package cn.arros.server.service.impl;
 
-import cn.arros.server.entity.SysConfig;
+import cn.arros.common.entity.SysConfig;
 import cn.arros.server.mapper.SysConfigMapper;
 import cn.arros.server.service.ISysConfigService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

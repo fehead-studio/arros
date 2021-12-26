@@ -1,6 +1,6 @@
 package cn.arros.server.service.impl;
 
-import cn.arros.server.entity.Repository;
+import cn.arros.common.entity.Repository;
 import cn.arros.server.mapper.RepositoryMapper;
 import cn.arros.server.service.RepositoryService;
 import cn.arros.server.utils.GitUtils;
