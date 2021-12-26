@@ -1,6 +1,6 @@
 package cn.arros.server.controller;
 
-import cn.arros.common.entity.Repository;
+import cn.arros.server.entity.Repository;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

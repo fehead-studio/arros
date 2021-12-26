@@ -1,6 +1,6 @@
 package cn.arros.server.mapper;
 
-import cn.arros.common.entity.Repository;
+import cn.arros.server.entity.Repository;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

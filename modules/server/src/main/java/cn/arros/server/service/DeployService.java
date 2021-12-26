@@ -2,9 +2,9 @@ package cn.arros.server.service;
 
 import cn.arros.server.constant.BuildStatus;
 import cn.arros.server.constant.ConfigType;
-import cn.arros.common.entity.BuildHistory;
-import cn.arros.common.entity.BuildInfo;
-import cn.arros.common.entity.Node;
+import cn.arros.server.entity.BuildHistory;
+import cn.arros.server.entity.BuildInfo;
+import cn.arros.server.entity.Node;
 import cn.arros.server.mapper.NodeMapper;
 import cn.arros.server.properties.ArrosProperties;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;

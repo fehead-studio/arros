@@ -1,4 +1,4 @@
-package cn.arros.common.entity;
+package cn.arros.server.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

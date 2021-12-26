@@ -2,7 +2,7 @@ package cn.arros.server.controller;
 
 import cn.arros.server.common.CommonResult;
 import cn.arros.server.component.annotation.TraceBuild;
-import cn.arros.common.entity.BuildInfo;
+import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.service.BuildInfoService;
 import cn.arros.server.service.BuildService;
 import org.slf4j.MDC;

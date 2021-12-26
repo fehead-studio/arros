@@ -1,6 +1,6 @@
 package cn.arros.server.service;
 
-import cn.arros.common.entity.SysConfig;
+import cn.arros.server.entity.SysConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

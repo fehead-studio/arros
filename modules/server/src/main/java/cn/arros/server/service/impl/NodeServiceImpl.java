@@ -1,6 +1,6 @@
 package cn.arros.server.service.impl;
 
-import cn.arros.common.entity.Node;
+import cn.arros.server.entity.Node;
 import cn.arros.server.mapper.NodeMapper;
 import cn.arros.server.service.NodeService;
 import cn.hutool.crypto.symmetric.SymmetricCrypto;

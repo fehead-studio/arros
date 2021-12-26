@@ -2,8 +2,10 @@ package cn.arros.server.controller;
 
 
 import cn.arros.server.common.CommonResult;
-import cn.arros.common.entity.BuildInfo;
+import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.service.BuildInfoService;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

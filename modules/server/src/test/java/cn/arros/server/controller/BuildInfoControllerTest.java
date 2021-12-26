@@ -1,6 +1,6 @@
 package cn.arros.server.controller;
 
-import cn.arros.common.entity.BuildInfo;
+import cn.arros.server.entity.BuildInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

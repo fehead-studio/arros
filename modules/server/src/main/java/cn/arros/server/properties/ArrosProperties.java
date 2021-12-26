@@ -1,7 +1,7 @@
 package cn.arros.server.properties;
 
 import cn.arros.server.constant.ConfigType;
-import cn.arros.common.entity.SysConfig;
+import cn.arros.server.entity.SysConfig;
 import cn.arros.server.service.ISysConfigService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;

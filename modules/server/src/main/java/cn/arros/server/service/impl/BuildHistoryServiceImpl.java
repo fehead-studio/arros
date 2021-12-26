@@ -1,7 +1,7 @@
 package cn.arros.server.service.impl;
 
 import cn.arros.server.constant.BuildStatus;
-import cn.arros.common.entity.BuildHistory;
+import cn.arros.server.entity.BuildHistory;
 import cn.arros.server.mapper.BuildHistoryMapper;
 import cn.arros.server.service.BuildHistoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

@@ -1,7 +1,7 @@
 package cn.arros.server.service.impl;
 
 import cn.arros.server.constant.ConfigType;
-import cn.arros.common.entity.BuildInfo;
+import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.mapper.BuildInfoMapper;
 import cn.arros.server.properties.ArrosProperties;
 import cn.arros.server.service.BuildInfoService;
