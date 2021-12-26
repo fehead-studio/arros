@@ -1,7 +1,7 @@
 package cn.arros.server.controller;
 
 
-import cn.arros.common.dto.common.CommonResult;
+import cn.arros.common.common.CommonResult;
 import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.service.BuildInfoService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
 package cn.arros.server.controller;
 
-import cn.arros.common.dto.common.CommonResult;
+import cn.arros.common.common.CommonResult;
 import cn.arros.server.component.annotation.TraceBuild;
 import cn.arros.server.entity.BuildInfo;
 import cn.arros.server.service.BuildInfoService;

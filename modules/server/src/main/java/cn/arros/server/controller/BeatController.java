@@ -2,7 +2,7 @@ package cn.arros.server.controller;
 
 import cn.arros.common.dto.HeartBeatBody;
 import cn.arros.server.bo.ServiceInfo;
-import cn.arros.common.dto.common.CommonResult;
+import cn.arros.common.common.CommonResult;
 import cn.arros.server.component.ServiceContainer;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

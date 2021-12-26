@@ -1,7 +1,7 @@
 package cn.arros.server.controller;
 
 
-import cn.arros.common.dto.common.CommonResult;
+import cn.arros.common.common.CommonResult;
 import cn.arros.server.entity.Repository;
 import cn.arros.server.service.RepositoryService;
 import cn.hutool.core.util.IdUtil;

@@ -1,4 +1,4 @@
-package cn.arros.common.dto.common;
+package cn.arros.common.common;
 
 import java.util.HashMap;
 import java.util.Objects;

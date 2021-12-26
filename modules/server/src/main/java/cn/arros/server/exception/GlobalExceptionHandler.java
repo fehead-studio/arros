@@ -1,6 +1,6 @@
 package cn.arros.server.exception;
 
-import cn.arros.common.dto.common.CommonResult;
+import cn.arros.common.common.CommonResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
