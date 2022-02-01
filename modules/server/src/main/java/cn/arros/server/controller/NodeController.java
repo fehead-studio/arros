@@ -1,11 +1,9 @@
 package cn.arros.server.controller;
 
 
-import cn.arros.server.common.CommonResult;
+import cn.arros.common.common.CommonResult;
 import cn.arros.server.entity.Node;
 import cn.arros.server.service.NodeService;
-import cn.hutool.core.util.IdUtil;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +26,7 @@ public class NodeController {
     private NodeService nodeService;
 
     @PostMapping
-    public CommonResult addNode(@RequestBody Node node) throws GitAPIException {
+    public CommonResult addNode(@RequestBody Node node) {
         nodeService.addNode(node);
         return CommonResult.success();
     }

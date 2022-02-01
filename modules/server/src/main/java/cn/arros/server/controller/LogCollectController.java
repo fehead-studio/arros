@@ -19,8 +19,7 @@ public class LogCollectController {
     private LogCollector logCollector;
 
     @PostMapping("/log")
-    public void test(@RequestParam String id, @RequestParam String log) throws IOException {
-        System.out.println(log);
-        logCollector.save(id,log);
+    public void save(@RequestParam String id, @RequestParam String log) throws IOException {
+        logCollector.saveLog(id,log);
     }
 }

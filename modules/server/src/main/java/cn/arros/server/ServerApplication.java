@@ -3,8 +3,6 @@ package cn.arros.server;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.util.concurrent.CompletableFuture;
-
 /**
  * @Author Verge
  * @Date 2021/10/30 23:47

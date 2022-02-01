@@ -1,12 +1,14 @@
 package cn.arros.server.controller;
 
 
-import cn.arros.server.common.CommonResult;
+import cn.arros.common.common.CommonResult;
+import cn.arros.common.dto.RepositoryDto;
 import cn.arros.server.entity.Repository;
 import cn.arros.server.service.RepositoryService;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +28,9 @@ public class RepositoryController {
 
     // TODO: 克隆过程应为异步，减少用户等待时间
     @PostMapping
-    public CommonResult addRepo(@RequestBody Repository repository) throws GitAPIException {
-        String uuid = IdUtil.fastSimpleUUID();
-        repository.setId(uuid);
+    public CommonResult addRepo(@RequestBody RepositoryDto repositoryDto) throws GitAPIException {
+        Repository repository = new Repository();
+        BeanUtils.copyProperties(repositoryDto, repository);
         repositoryService.addRepo(repository);
         return CommonResult.success();
     }

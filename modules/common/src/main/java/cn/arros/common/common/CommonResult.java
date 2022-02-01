@@ -1,9 +1,7 @@
-package cn.arros.server.common;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.util.ObjectUtils;
+package cn.arros.common.common;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * @Author Verge
@@ -28,7 +26,6 @@ public class CommonResult extends HashMap<String, Object> {
 
     /**
      * 初始化一个新创建的 CommonResult 对象
-     *
      * @param code 状态码
      * @param msg 返回内容
      */
@@ -39,7 +36,6 @@ public class CommonResult extends HashMap<String, Object> {
 
     /**
      * 初始化一个新创建的 CommonResult 对象
-     *
      * @param code 状态码
      * @param msg 返回内容
      * @param data 数据对象
@@ -48,14 +44,13 @@ public class CommonResult extends HashMap<String, Object> {
     {
         super.put(CODE_TAG, code);
         super.put(MSG_TAG, msg);
-        if (!ObjectUtils.isEmpty(data)) {
+        if (Objects.nonNull(data)) {
             super.put(DATA_TAG, data);
         }
     }
 
     /**
      * 返回成功消息
-     *
      * @return 成功消息
      */
     public static CommonResult success()
@@ -65,7 +60,6 @@ public class CommonResult extends HashMap<String, Object> {
 
     /**
      * 返回成功数据
-     *
      * @return 成功消息
      */
     public static CommonResult success(Object data)
@@ -75,7 +69,6 @@ public class CommonResult extends HashMap<String, Object> {
 
     /**
      * 返回成功消息
-     *
      * @param msg 返回内容
      * @return 成功消息
      */
@@ -86,20 +79,18 @@ public class CommonResult extends HashMap<String, Object> {
 
     /**
      * 返回成功消息
-     *
      * @param msg 返回内容
      * @param data 数据对象
      * @return 成功消息
      */
     public static CommonResult success(String msg, Object data)
     {
-        return new CommonResult(HttpStatus.OK.value(), msg, data);
+        return new CommonResult(200, msg, data);
     }
 
     /**
      * 返回错误消息
-     *
-     * @return
+     * @return 警告消息
      */
     public static CommonResult error()
     {
@@ -119,19 +110,17 @@ public class CommonResult extends HashMap<String, Object> {
 
     /**
      * 返回错误消息
-     *
      * @param msg 返回内容
      * @param data 数据对象
      * @return 警告消息
      */
     public static CommonResult error(String msg, Object data)
     {
-        return new CommonResult(HttpStatus.INTERNAL_SERVER_ERROR.value(), msg, data);
+        return new CommonResult(500, msg, data);
     }
 
     /**
      * 返回错误消息
-     *
      * @param code 状态码
      * @param msg 返回内容
      * @return 警告消息

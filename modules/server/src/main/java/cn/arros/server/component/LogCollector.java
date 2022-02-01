@@ -1,6 +1,5 @@
 package cn.arros.server.component;
 
-
 import cn.arros.server.constant.ConfigType;
 import cn.arros.server.properties.ArrosProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class LogCollector {
     @Autowired
     private ArrosProperties arrosProperties;
 
-    public void save(String id, String log) throws IOException {
+    public void saveLog(String id, String log) throws IOException {
         String logPath = arrosProperties.getConfig(ConfigType.LOG_PATH);
         File logFile = new File(logPath + "/" + id + ".log");
         if(!logFile.exists()) {
