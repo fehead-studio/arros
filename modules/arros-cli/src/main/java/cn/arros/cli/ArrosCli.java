@@ -1,6 +1,7 @@
 package cn.arros.cli;
 
 import cn.arros.cli.cmd.Ping;
+import cn.arros.cli.cmd.Repo;
 import org.fusesource.jansi.AnsiConsole;
 import org.jline.console.SystemRegistry;
 import org.jline.console.impl.SystemRegistryImpl;
@@ -27,7 +28,8 @@ import java.util.function.Supplier;
 public class ArrosCli {
     @Command(subcommands = {
                     CommandLine.HelpCommand.class,
-                    Ping.class
+                    Ping.class,
+                    Repo.class
     })
     static class CliCommands implements Runnable {
         PrintWriter out;

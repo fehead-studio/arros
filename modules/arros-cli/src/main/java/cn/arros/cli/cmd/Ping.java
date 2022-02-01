@@ -1,10 +1,12 @@
 package cn.arros.cli.cmd;
 
+import cn.arros.cli.component.RetrofitService;
 import cn.arros.cli.rpc.Test;
-import feign.Feign;
-import feign.gson.GsonDecoder;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import retrofit2.Retrofit;
+
+import java.io.IOException;
 
 /**
  * @Author Verge
@@ -22,11 +24,13 @@ public class Ping implements Runnable{
 
     @Override
     public void run() {
-        // TODO：考虑使用工厂模式重构
-        Test test = Feign.builder()
-                        .decoder(new GsonDecoder())
-                        .target(Test.class, "http://localhost:4567");
+        Retrofit retrofit = RetrofitService.getRetrofitInstance();
+        Test test = retrofit.create(Test.class);
 
-        System.out.println(test.ping(message));
+        try {
+            System.out.println(test.ping(message).execute().body());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

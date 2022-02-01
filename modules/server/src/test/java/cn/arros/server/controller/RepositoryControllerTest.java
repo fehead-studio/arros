@@ -1,5 +1,6 @@
 package cn.arros.server.controller;
 
+import cn.arros.common.dto.RepositoryDto;
 import cn.arros.server.entity.Repository;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ class RepositoryControllerTest {
     @Test
     @Rollback
     void addRepo() throws GitAPIException {
-        Repository repository = new Repository();
+        RepositoryDto repository = new RepositoryDto();
         repository.setGitUrl("https://gitee.com/vergeee/yiban-auto-checkin.git");
         repository.setName("易班自动打卡");
         repositoryController.addRepo(repository);

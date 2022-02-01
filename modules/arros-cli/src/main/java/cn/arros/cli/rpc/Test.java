@@ -1,7 +1,9 @@
 package cn.arros.cli.rpc;
 
-import feign.Param;
-import feign.RequestLine;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * @Author Verge
@@ -9,6 +11,6 @@ import feign.RequestLine;
  * @Version 1.0
  */
 public interface Test {
-    @RequestLine("GET /ping/{message}")
-    String ping(@Param("message") String message);
+    @GET("/ping/{message}")
+    Call<String> ping(@Path("message") String message);
 }

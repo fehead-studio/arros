@@ -27,7 +27,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="consoleAppender"/>
             <AppenderRef ref="webSocketAppender"/>
         </Root>
